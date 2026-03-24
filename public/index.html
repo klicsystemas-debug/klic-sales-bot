@@ -154,7 +154,7 @@
         if(!bizNameInput.value) return alert("Pon un nombre para tu negocio");
         demoActive = true;
         chatBox.style.opacity = "1";
-        chatBox.style.pointer-events = "all";
+        chatBox.style.pointerEvents = "all";
         statusText.innerText = "IA Configurada para: " + bizNameInput.value;
         addMessage("bot", `¡Hola! Soy el asistente experto de ${bizNameInput.value}. ¿En que puedo ayudarte hoy?`);
         startBtn.innerText = "Configurar otra Demo";
