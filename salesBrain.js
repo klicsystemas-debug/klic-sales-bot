@@ -9,9 +9,10 @@ const openai = new OpenAI({
 
 /**
  * Genera una respuesta persuasiva para cerrar ventas en Instagram.
+ * Permite inyectar un systemPrompt personalizado para demos dinámicas.
  */
-async function generateSalesResponse(userName, userMessage, context = "") {
-  const systemPrompt = `
+async function generateSalesResponse(userName, userMessage, customSystemPrompt = null) {
+  const defaultPrompt = `
     Eres un experto en ventas online de 'Klic Systemas' (Laboratorio de Bots).
     Tu objetivo es cerrar ventas de servicios de automatización de Instagram de forma persuasiva.
     
@@ -22,12 +23,14 @@ async function generateSalesResponse(userName, userMessage, context = "") {
     4. Siempre termina con un Call to Action (CTA) claro.
   `;
 
+  const systemPrompt = customSystemPrompt || defaultPrompt;
+
   try {
     const response = await openai.chat.completions.create({
-      model: "llama3-70b-8192", // Modelo de alta calidad y gratuito en Groq
+      model: "llama3-70b-8192", 
       messages: [
         { role: "system", content: systemPrompt },
-        { role: "user", content: userMessage }
+        { role: "user", content: `Cliente (${userName}): ${userMessage}` }
       ],
       temperature: 0.7,
     });
@@ -35,10 +38,8 @@ async function generateSalesResponse(userName, userMessage, context = "") {
     return response.choices[0].message.content;
   } catch (error) {
     console.error("Error en SalesBrain (Groq):", error);
-    return "¡Hola! Gracias por escribirnos en Klic Systemas. En un momento un asesor humano te atenderá. 😊";
+    return "¡Hola! Gracias por escribirnos. En un momento un asesor humano te atenderá. 😊";
   }
 }
-
-module.exports = { generateSalesResponse };
 
 module.exports = { generateSalesResponse };

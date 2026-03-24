@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klic Systemas | Laboratorio de Bots IA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00d2ff;
+            --secondary: #9d50bb;
+            --accent: #ffb400;
+            --dark: #0f0c29;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+
+        body {
+            background: radial-gradient(circle at top right, #302b63, #24243e, #0f0c29);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 90%;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        @media (max-width: 800px) {
+            .container { grid-template-columns: 1fr; padding: 30px; }
+        }
+
+        h1 { font-size: 3rem; margin-bottom: 20px; background: linear-gradient(90deg, #fff, var(--primary)); -webkit-background-clip: text; color: transparent; }
+        p { line-height: 1.6; color: #ccc; margin-bottom: 30px; }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 10px; font-weight: bold; color: var(--primary); font-size: 0.9rem; }
+        input, textarea {
+            width: 100%;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 12px;
+            color: white;
+            outline: none;
+            transition: 0.3s;
+        }
+        input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(0, 210, 255, 0.2); }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+
+        /* Chat UI */
+        .chat-box {
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border);
+        }
+        .messages { flex: 1; padding: 20px; overflow-y: auto; font-size: 0.9rem; }
+        .message { margin-bottom: 15px; max-width: 85%; padding: 12px; border-radius: 15px; }
+        .user { background: var(--secondary); align-self: flex-end; margin-left: auto; }
+        .bot { background: rgba(255,255,255,0.1); align-self: flex-start; }
+
+        .chat-input-area { display: flex; padding: 10px; border-top: 1px solid var(--border); }
+        .chat-input { flex: 1; background: transparent; border: none; padding: 10px; color: white; resize: none; height: 40px; }
+        
+        .status { font-size: 0.7rem; color: #888; text-align: center; margin-bottom: 5px; }
+
+        .branding {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            color: var(--accent);
+            letter-spacing: 3px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="left">
+        <h1>Klic Demo Lab🧪</h1>
+        <p>Experimenta el poder de la IA en tu negocio ahora mismo. Ingresa tus datos y mi bot se convertirá en tu mejor vendedor.</p>
+        
+        <div class="form-group">
+            <label>Nombre de tu Negocio</label>
+            <input type="text" id="bizName" placeholder="Ejem: Pizzería Don Juan">
+        </div>
+        
+        <div class="form-group">
+            <label>¿Qué vendes? (Breve)</label>
+            <textarea id="bizDesc" placeholder="Vendemos pizzas artesanales al horno de barro con delivery..."></textarea>
+        </div>
+        
+        <button class="btn" id="startBtn">Generar Demo IA 🏁🚀</button>
+        <div class="branding">KLIC SYSTEMAS</div>
+    </div>
+
+    <div class="right">
+        <div class="chat-box" id="chatBox" style="opacity: 0.5; pointer-events: none;">
+            <div class="status" id="statusText">Configura tu negocio para empezar...</div>
+            <div class="messages" id="chatLog">
+                <div class="message bot">Hola! Una vez que configures tu negocio, estaré listo para atender a tus clientes aquí mismo.</div>
+            </div>
+            <div class="chat-input-area">
+                <textarea class="chat-input" id="chatInput" placeholder="Escribe tu duda aquí..."></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const bizNameInput = document.getElementById('bizName');
+    const bizDescInput = document.getElementById('bizDesc');
+    const startBtn = document.getElementById('startBtn');
+    const chatBox = document.getElementById('chatBox');
+    const chatLog = document.getElementById('chatLog');
+    const chatInput = document.getElementById('chatInput');
+    const statusText = document.getElementById('statusText');
+
+    let demoActive = false;
+
+    startBtn.onclick = () => {
+        if(!bizNameInput.value) return alert("Pon un nombre para tu negocio");
+        demoActive = true;
+        chatBox.style.opacity = "1";
+        chatBox.style.pointer-events = "all";
+        statusText.innerText = "IA Configurada para: " + bizNameInput.value;
+        addMessage("bot", `¡Hola! Soy el asistente experto de ${bizNameInput.value}. ¿En que puedo ayudarte hoy?`);
+        startBtn.innerText = "Configurar otra Demo";
+    };
+
+    chatInput.onkeypress = async (e) => {
+        if(e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            const text = chatInput.value.trim();
+            if(!text || !demoActive) return;
+            
+            addMessage("user", text);
+            chatInput.value = "";
+            
+            // Animación de escribiendo...
+            const typingId = "typing_" + Date.now();
+            addMessage("bot", "Analizando...", typingId);
+            
+            try {
+                const response = await fetch('/api/demo-chat', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        business_name: bizNameInput.value,
+                        business_description: bizDescInput.value,
+                        user_message: text
+                    })
+                });
+                const data = await response.json();
+                document.getElementById(typingId).remove();
+                addMessage("bot", data.response);
+            } catch (err) {
+                document.getElementById(typingId).innerText = "Error consultando a la IA";
+            }
+        }
+    };
+
+    function addMessage(sender, text, id = null) {
+        const div = document.createElement('div');
+        div.className = `message ${sender}`;
+        if(id) div.id = id;
+        div.innerText = text;
+        chatLog.appendChild(div);
+        chatLog.scrollTop = chatLog.scrollHeight;
+    }
+</script>
+
+</body>
+</html>
