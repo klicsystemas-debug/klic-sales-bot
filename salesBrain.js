@@ -26,6 +26,7 @@ async function generateSalesResponse(userName, userMessage, customSystemPrompt =
   const systemPrompt = customSystemPrompt || defaultPrompt;
 
   try {
+    console.log(`Llamando a Groq con modelo llama3-70b-8192...`);
     const response = await openai.chat.completions.create({
       model: "llama3-70b-8192", 
       messages: [
@@ -35,9 +36,12 @@ async function generateSalesResponse(userName, userMessage, customSystemPrompt =
       temperature: 0.7,
     });
 
+    console.log("Respuesta de Groq recibida con éxito.");
     return response.choices[0].message.content;
   } catch (error) {
-    console.error("Error en SalesBrain (Groq):", error);
+    console.error("DETALLE DEL ERROR EN GROQ:", error.message);
+    if (error.message.includes("401")) return "ERROR: API Key no configurada o inválida en Render. 🛑";
+    if (error.message.includes("429")) return "ERROR: Demasiadas peticiones. Esperá un minuto. ⏳";
     return "¡Hola! Gracias por escribirnos. En un momento un asesor humano te atenderá. 😊";
   }
 }
