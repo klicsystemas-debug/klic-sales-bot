@@ -28,7 +28,7 @@ async function generateSalesResponse(userName, userMessage, customSystemPrompt =
   try {
     console.log(`Llamando a Groq con modelo llama3-70b-8192...`);
     const response = await openai.chat.completions.create({
-      model: "llama3-70b-8192", 
+      model: "llama-3.1-70b-versatile", 
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: `Cliente (${userName}): ${userMessage}` }
