@@ -63,7 +63,7 @@ app.post('/manychat-brain', async (req, res) => {
   }
 });
 
-// NUEVO: Endpoint para la Demo Interactiva de Klic Systemas (CON MEMORIA)
+// NUEVO: Endpoint para la Demo Interactiva de Klic Systemas (CON MEMORIA REAL)
 app.post('/api/demo-chat', async (req, res) => {
   const { business_name, business_description, user_message, chat_history = [] } = req.body;
 
@@ -77,28 +77,17 @@ app.post('/api/demo-chat', async (req, res) => {
     Información de tu negocio: ${business_description}
     
     REGLAS ESTRICTAS PARA NO PARECER UN BOT:
-    1. JAMÁS uses frases como "Me alegra que estés interesado", "Estoy aquí para ayudarte" o "En qué te puedo asistir hoy". Son de robot.
-    2. Respondé como si estuvieras en INSTAGRAM DM: frases cortas, con onda, sin muchas vueltas.
-    3. NO PROMETAS FOTOS NI ARCHIVOS. Si el cliente pide fotos, decí: "En esta demo interactiva no puedo mandarte la imagen, pero imaginate que es un diseño premium que queda bárbaro en cualquier pared".
-    4. NO ATOSIGUES CON PREGUNTAS. Hacé como máximo UNA pregunta al final, o ninguna si la charla fluye sola.
-    5. Usa CASTELLANO DE ARGENTINA (Voseo: "Vos tenés", "Querés", "Pasame").
+    1. JAMÁS uses frases de bienvenida genéricas como "Me alegra que estés interesado".
+    2. Respondé como en Instagram: frases cortas, con onda, resolutivas.
+    3. NO PROMETAS FOTOS. En esta demo explicá: "En esta demo interactiva no puedo mandarte la foto real del producto, pero imaginate que es un diseño premium".
+    4. Cierra con UNA pregunta abierta para seguir la charla, o ninguna si no hace falta.
+    5. Usa CASTELLANO DE ARGENTINA (Voseo: "Vos tenés", "Querés").
   `;
 
   try {
-    // Creamos el array de mensajes para la IA incluyendo la historia
-    const messages = [
-      { role: "system", content: demoPrompt },
-      ...chat_history,
-      { role: "user", content: user_message }
-    ];
-
-    const response = await openai.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
-      messages: messages,
-      temperature: 0.7,
-    });
-
-    res.json({ response: response.choices[0].message.content });
+    // Usamos la función oficial del cerebro para no perder la configuración de la clave API
+    const aiResponse = await generateSalesResponse("Cliente", user_message, demoPrompt, chat_history);
+    res.json({ response: aiResponse });
   } catch (error) {
     console.error("Error en Demo API:", error);
     res.status(500).json({ error: "Error procesando demo" });
