@@ -149,14 +149,17 @@
     const statusText = document.getElementById('statusText');
 
     let demoActive = false;
+    let chatHistory = [];
 
     startBtn.onclick = () => {
         if(!bizNameInput.value) return alert("Pon un nombre para tu negocio");
         demoActive = true;
+        chatHistory = []; // Reiniciar historia al cambiar de negocio
         chatBox.style.opacity = "1";
         chatBox.style.pointerEvents = "all";
         statusText.innerText = "IA Configurada para: " + bizNameInput.value;
-        addMessage("bot", `¡Hola! Soy el asistente experto de ${bizNameInput.value}. ¿En que puedo ayudarte hoy?`);
+        chatLog.innerHTML = ""; // Limpiar mensajes
+        addMessage("bot", `¡Hola! Soy del equipo de ${bizNameInput.value}. ¿En qué te puedo dar una mano?`);
         startBtn.innerText = "Configurar otra Demo";
     };
 
@@ -169,7 +172,6 @@
             addMessage("user", text);
             chatInput.value = "";
             
-            // Animación de escribiendo...
             const typingId = "typing_" + Date.now();
             addMessage("bot", "Analizando...", typingId);
             
@@ -180,12 +182,20 @@
                     body: JSON.stringify({
                         business_name: bizNameInput.value,
                         business_description: bizDescInput.value,
-                        user_message: text
+                        user_message: text,
+                        chat_history: chatHistory
                     })
                 });
                 const data = await response.json();
                 document.getElementById(typingId).remove();
                 addMessage("bot", data.response);
+
+                // Guardar en la historia local para el siguiente mensaje
+                chatHistory.push({ role: "user", content: text });
+                chatHistory.push({ role: "assistant", content: data.response });
+
+                // Limitar la historia a los últimos 10 mensajes
+                if(chatHistory.length > 10) chatHistory.shift();
             } catch (err) {
                 document.getElementById(typingId).innerText = "Error consultando a la IA";
             }

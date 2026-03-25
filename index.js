@@ -63,24 +63,44 @@ app.post('/manychat-brain', async (req, res) => {
   }
 });
 
-// NUEVO: Endpoint para la Demo Interactiva de Klic Systemas
+// NUEVO: Endpoint para la Demo Interactiva de Klic Systemas (CON MEMORIA)
 app.post('/api/demo-chat', async (req, res) => {
-  const { business_name, business_description, user_message } = req.body;
+  const { business_name, business_description, user_message, chat_history = [] } = req.body;
+
   if (!business_name || !user_message) {
     return res.status(400).json({ error: "Faltan datos para la demo" });
   }
+
   const demoPrompt = `
     Eres el experto en ventas de '${business_name}'.
-    Tu personalidad es servicial, profesional y vendedora.
+    Tu personalidad es profesional, DIRECTA y humana. NO eres un bot asistente.
     Información de tu negocio: ${business_description}
-    REGLAS:
-    - Respondé en Castellano (Usa Voseo si el negocio es argentino).
-    - Sé persuasivo, natural y cercano. No menciones que eres una IA.
+    
+    REGLAS ESTRICTAS PARA NO PARECER UN BOT:
+    1. JAMÁS uses frases como "Me alegra que estés interesado", "Estoy aquí para ayudarte" o "En qué te puedo asistir hoy". Son de robot.
+    2. Respondé como si estuvieras en INSTAGRAM DM: frases cortas, con onda, sin muchas vueltas.
+    3. NO PROMETAS FOTOS NI ARCHIVOS. Si el cliente pide fotos, decí: "En esta demo interactiva no puedo mandarte la imagen, pero imaginate que es un diseño premium que queda bárbaro en cualquier pared".
+    4. NO ATOSIGUES CON PREGUNTAS. Hacé como máximo UNA pregunta al final, o ninguna si la charla fluye sola.
+    5. Usa CASTELLANO DE ARGENTINA (Voseo: "Vos tenés", "Querés", "Pasame").
   `;
+
   try {
-    const aiResponse = await generateSalesResponse("Cliente", user_message, demoPrompt);
-    res.json({ response: aiResponse });
+    // Creamos el array de mensajes para la IA incluyendo la historia
+    const messages = [
+      { role: "system", content: demoPrompt },
+      ...chat_history,
+      { role: "user", content: user_message }
+    ];
+
+    const response = await openai.chat.completions.create({
+      model: "llama-3.3-70b-versatile",
+      messages: messages,
+      temperature: 0.7,
+    });
+
+    res.json({ response: response.choices[0].message.content });
   } catch (error) {
+    console.error("Error en Demo API:", error);
     res.status(500).json({ error: "Error procesando demo" });
   }
 });
