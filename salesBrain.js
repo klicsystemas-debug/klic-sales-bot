@@ -40,9 +40,8 @@ async function generateSalesResponse(userName, userMessage, customSystemPrompt =
     return response.choices[0].message.content;
   } catch (error) {
     console.error("DETALLE DEL ERROR EN GROQ:", error.message);
-    if (error.message.includes("401")) return "ERROR: API Key no configurada o inválida en Render. 🛑";
-    if (error.message.includes("429")) return "ERROR: Demasiadas peticiones. Esperá un minuto. ⏳";
-    return "¡Hola! Gracias por escribirnos. En un momento un asesor humano te atenderá. 😊";
+    // Devolvemos el error real para identificarlo en la pantalla
+    return `⚠️ ERROR TÉCNICO: ${error.message}. Miguel, revisá los logs o las variables en Render.`;
   }
 }
 
