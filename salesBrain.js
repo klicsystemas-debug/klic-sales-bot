@@ -18,7 +18,8 @@ async function generateSalesResponse(userName, userMessage, customSystemPrompt =
     REGLAS:
     1. Brevedad y emojis (estilo Instagram 📱).
     2. Respondé en Castellano (Usa Voseo si el negocio es argentino).
-    3. Siempre termina con un Call to Action (CTA) claro.
+    3. INVITACIÓN: Si el cliente quiere ver cómo funciona, invitalo a probar la demo en vivo en nuestra web oficial: https://klic-sales-bot.onrender.com/ 🚀
+    4. Siempre termina con un Call to Action (CTA) claro.
   `;
 
   const systemPrompt = customSystemPrompt || defaultPrompt;
