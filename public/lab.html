@@ -143,6 +143,7 @@
 
             setTimeout(() => {
                 demoActive = true;
+                chatHistory = [];
                 igTitle.innerText = bizNameInput.value;
                 chatLog.innerHTML = "";
                 addMessage("bot", `¡Hola! Soy de ${bizNameInput.value}, ¿en qué te puedo ayudar? 😊`);
@@ -174,6 +175,8 @@
             chatLog.scrollTop = chatLog.scrollHeight;
         }
 
+        let chatHistory = [];
+
         chatInput.onkeypress = async (e) => {
             if(e.key === 'Enter') {
                 const text = chatInput.value.trim();
@@ -189,14 +192,18 @@
                             business_name: bizNameInput.value,
                             business_description: bizDescInput.value,
                             business_url: bizUrl.value,
-                            store_mode: true,
-                            user_message: text
+                            user_message: text,
+                            chat_history: chatHistory
                         })
                     });
                     const data = await response.json();
-                    addMessage("bot", data.response, data.product);
+                    addMessage("bot", data.response);
+                    
+                    // Acumular historial para que la IA tenga memoria
+                    chatHistory.push({ role: "user", content: text });
+                    chatHistory.push({ role: "assistant", content: data.response });
                 } catch (err) {
-                    addMessage("bot", "Hubo un error de sincronización.");
+                    addMessage("bot", "Error de conexión, intentá de nuevo.");
                 }
             }
         };
