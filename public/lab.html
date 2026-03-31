@@ -75,8 +75,9 @@
 
     <div class="config-card">
         <div class="logo-k" onclick="window.location.href='/'">
-            <img class="logo-img-fix" id="mainLogo" src="logo.png" 
-                onerror="this.src='https://dcdn-us.mitiendanube.com/stores/006/549/339/themes/common/logo-2116567490-1762033621-46b95d96386fe3eca045c88e9982e1bf1762033621-480-0.webp'">
+            <img class="logo-img-fix" id="mainLogo" src="Logo" 
+                onerror="this.src='logo.png'; this.onerror=function(){this.style.display='none'; document.getElementById('logoFallback').style.display='flex';};">
+            <span id="logoFallback" style="display:none; width:40px; height:40px; background:var(--orange); border-radius:10px; align-items:center; justify-content:center; font-size:1.4rem; font-weight:900; color:white;">K</span>
             <span style="font-weight:700">KLIC SYSTEMAS</span>
         </div>
         <h1>Deep-Sync</h1>
