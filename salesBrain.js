@@ -61,7 +61,7 @@ async function generateSalesResponse(userName, userMessage, customSystemPrompt =
 
     } catch (groqError) {
       console.error("❌ AMBOS MOTORES CAÍDOS:", groqError.message);
-      return `[MODO DEBUG] Falló Gemini: ${geminiError.message}. Falló Groq: ${groqError.message}.`;
+      return "¡Hola! Gracias por escribirnos. En un momento un asesor humano te atenderá. 😊";
     }
   }
 }
