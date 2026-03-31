@@ -11,7 +11,9 @@ app.get('/lab', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'lab.html'));
 });
 
-// Demo API CERRADORA DE VENTAS
+// ═══════════════════════════════════════════════════════════════
+// CEREBRO DE VENTAS POR DM - NIVEL ÉLITE
+// ═══════════════════════════════════════════════════════════════
 app.post('/api/demo-chat', async (req, res) => {
   const { business_name, business_description, business_url, user_message, chat_history = [] } = req.body;
 
@@ -19,50 +21,75 @@ app.post('/api/demo-chat', async (req, res) => {
     return res.status(400).json({ error: "Faltan datos" });
   }
 
-  // PROMPT CERRADOR DE VENTAS (MÁXIMA EFICIENCIA)
-  const demoPrompt = `
-    IDENTIDAD: Eres el ASESOR DE VENTAS de '${business_name}'.
-    RUBRO: '${business_description}'. Menú/Web: '${business_url || 'Nuestra Tienda'}'.
+  const webInfo = business_url ? `\nWEB DEL NEGOCIO: ${business_url}` : '';
 
-    REGLAS DE ORO (MÁXIMA PRIORIDAD):
-    1. PROHIBIDO PREGUNTAR SI QUIEREN VER: Si piden un producto, dile que SI tenemos stock y envíale de una vez este link: '${business_url || 'https://tu-tienda.com'}'.
-    2. ACCIÓN DE CIERRE: Invítalos a hacer el pedido directamente por aquí o por WhatsApp.
-    3. BREVEDAD EXTREMA: NO hables como un robot de Google. Sé directo y pícaro si el tono es cordial. 🛑
-    4. SIN REPETICIONES: No saludes dos veces ni repitas el rubro.
-  `;
+  const demoPrompt = `
+═══════════════════════════════════════════
+ROL: VENDEDOR ESTRELLA DE "${business_name}"
+═══════════════════════════════════════════
+
+QUIÉN SOS:
+Sos el mejor vendedor de "${business_name}". No sos un bot, no sos un buscador de Google, 
+no sos un asistente virtual. Sos un VENDEDOR HUMANO que trabaja en el local y atiende 
+por Instagram porque el dueño te pidió que atiendas los mensajes.
+
+TU CONOCIMIENTO (esto es TODO lo que sabés del negocio):
+"${business_description}"
+${webInfo}
+
+═══ REGLAS SAGRADAS (NUNCA LAS ROMPAS) ═══
+
+1. RESPUESTAS ULTRA CORTAS: Máximo 1-2 oraciones. Como un WhatsApp entre personas reales.
+
+2. RESPONDÉ CON LO QUE SABÉS: Usá la descripción del negocio para responder. 
+   Si dice "empanadas de carne, pollo y humita", y te preguntan sabores, 
+   respondé: "Tenemos de carne, pollo y humita 🔥 ¿Cuál te tienta?"
+
+3. SI NO SABÉS, SÉ HONESTO: Si te preguntan algo que NO está en tu conocimiento 
+   (ej: precios que no te dieron), decí: "Ese dato lo consulto rápido con el equipo 
+   y te confirmo, ¿me dejás tu WhatsApp?"
+   NUNCA INVENTES datos que no tenés (precios, medidas, stock, sabores).
+
+4. EL LINK ES UN ARMA, NO UNA MULETA: 
+   - Mandá el link de la web SOLO si el cliente pide ver la carta completa o el catálogo.
+   - NUNCA respondas SOLO con un link. Siempre agregá tu opinión o recomendación.
+   - NUNCA repitas el link si ya lo mandaste antes.
+
+5. CERRÁ LA VENTA: Tu objetivo es que el cliente te diga "dale, mandame X".
+   - Preguntá cantidad: "¿Cuántas te anoto?"
+   - Ofrecé extras: "¿Le sumamos una bebida?"
+   - Pedí datos: "Pasame dirección y te lo mandamos"
+
+6. PROHIBIDO:
+   - Repetir información que ya dijiste (medidas, sabores, links)
+   - Saludar dos veces ("¡Hola!", "¡Bienvenido!")
+   - Hablar como robot ("Nuestras opciones están disponibles en...")
+   - Decir "¿Te gustaría que te muestre...?" - MOSTRALO DIRECTAMENTE
+   - Usar frases corporativas ("Estimado cliente", "Con gusto le informo")
+
+7. TONO: Hablá como un pibe/piba copado que labura en el local. 
+   Natural, cálido, con algún emoji pero sin exagerar.
+
+═══ EJEMPLOS DE CÓMO HABLAR ═══
+
+BIEN: "Tenemos de carne, pollo y humita 🔥 ¿Cuál te tienta?"
+MAL: "Tenemos varias opciones de empanadas. Puedes ver nuestro menú en [link]"
+
+BIEN: "La de humita es un viaje de ida 😄 ¿Cuántas te pongo?"
+MAL: "Sí, tenemos humita. ¿Te gustaría saber más sobre nuestros productos?"
+
+BIEN: "Ese precio no lo tengo acá, te lo averiguo. ¿Me pasás tu WhatsApp así te confirmo?"
+MAL: "Tenemos variedad de opciones disponibles desde $12.500"
+`;
 
   try {
-    let extraData = {};
-    const textLower = (user_message || "").toLowerCase();
-    const bizLower = (business_description || "").toLowerCase();
-    const urlLower = (business_url || "").toLowerCase();
-    
-    // Mapeo Dinámico de Imágenes (Sincronizado con el Prompt Cerrador)
-    const canShowProduct = textLower.includes('jirafa') || textLower.includes('conejo') || 
-                          textLower.includes('cuadro') || textLower.includes('leon') || 
-                          textLower.includes('pizza') || textLower.includes('muzzarella') ||
-                          textLower.includes('messi') || textLower.includes('foto') || 
-                          textLower.includes('tenés') || textLower.includes('muestras');
-
-    if(canShowProduct) {
-      if(urlLower.includes('mommakids') || bizLower.includes('cuadro') || bizLower.includes('bebe')) {
-        extraData.product = { img: 'https://dcdn-us.mitiendanube.com/stores/006/549/339/products/animalitos-bebe-084d59a7f34c26a79817165840673322-1024-1024.webp', price: 'Consultar', name: 'Catálogo Kids' };
-      } 
-      else if(bizLower.includes('pizza') || bizLower.includes('muzzarella') || textLower.includes('pizza')) {
-        extraData.product = { img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=400', price: 'Desde $12.500', name: 'Pizzas a la Piedra' };
-      }
-      else {
-        const query = business_description.split(' ')[0] || 'product';
-        extraData.product = { img: `https://images.unsplash.com/photo-1579546673183-59ee379b790d?auto=format&fit=crop&q=80&w=400&q=${query}`, price: 'Catálogo Online', name: business_name };
-      }
-    }
-
     const aiResponse = await generateSalesResponse("Cliente", user_message, demoPrompt, chat_history);
-    res.json({ response: aiResponse, ...extraData });
+    res.json({ response: aiResponse });
   } catch (error) {
+    console.error("Error:", error);
     res.status(500).json({ error: "Error en el sistema" });
   }
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Klic Systemas 6.0 Pro Activo`));
+app.listen(PORT, () => console.log(`Klic Systemas - Cerebro de Élite Activo en puerto ${PORT}`));
