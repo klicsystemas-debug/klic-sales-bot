@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klic Lab | Deep-Sync Edition</title>
+    <title>Klic Lab | Deep-Sync PRO</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -22,24 +22,31 @@
         }
 
         /* Config */
-        .config-card { max-width: 450px; }
+        .config-card { max-width: 460px; }
         .logo-k { display: flex; align-items: center; gap: 10px; margin-bottom: 2rem; cursor: pointer; }
         .logo-img-fix { height: 40px; }
 
-        .config-card h1 { font-size: 2.2rem; margin-bottom: 0.5rem; color: var(--orange); }
-        .input-group { margin-bottom: 1.2rem; }
-        label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--gray); margin-bottom: 4px; }
-        input, textarea, select { width: 100%; background: #0f172a; border: 1px solid #1e293b; padding: 12px; color: white; border-radius: 6px; }
+        .config-card h1 { font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--orange); }
+        .config-card p { font-size: 0.95rem; color: var(--gray); margin-bottom: 2rem; }
 
-        /* DEEP SYNC ANIMATION */
-        .sync-progress { height: 4px; background: #1e293b; border-radius: 2px; overflow: hidden; margin: 15px 0; display: none; }
-        .active-progress { width: 0%; height: 100%; background: var(--orange); transition: 2s; }
+        .input-group { margin-bottom: 1rem; }
+        label { display: block; font-size: 0.7rem; font-weight: 700; color: var(--gray); margin-bottom: 4px; text-transform: uppercase; }
+        input, textarea, select { width: 100%; background: #0f172a; border: 1px solid #1e293b; padding: 12px; color: white; border-radius: 8px; font-size: 0.9rem; }
 
-        .btn-run { width: 100%; background: var(--orange); color: white; padding: 1.2rem; border-radius: 8px; font-weight: 700; border: none; cursor: pointer; margin-top: 1rem; }
+        /* DEEP SYNC BAR */
+        .sync-box { display: none; margin: 15px 0; }
+        .sync-bar { height: 4px; background: #1e293b; border-radius: 4px; overflow: hidden; }
+        .sync-fill { width: 0%; height: 100%; background: var(--orange); transition: 2.5s ease-out; }
+        .sync-status { font-size: 0.65rem; color: var(--orange); margin-top: 5px; font-weight: 600; }
+
+        .btn-run { width: 100%; background: var(--orange); color: white; padding: 1.2rem; border-radius: 10px; font-weight: 700; border: none; cursor: pointer; font-size: 1.1rem; margin-top: 1rem; transition: 0.3s; }
+        .btn-run:hover:not(:disabled) { background: var(--orange-h); transform: translateY(-2px); }
+        .btn-run:disabled { opacity: 0.5; cursor: wait; }
 
         /* Smartphone */
-        .phone { width: 310px; height: 600px; background: #000; border: 10px solid #222; border-radius: 40px; display: flex; flex-direction: column; overflow: hidden; margin: 0 auto; box-shadow: 0 40px 100px rgba(0,0,0,0.8); }
+        .phone { width: 310px; height: 600px; background: #000; border: 10px solid #222; border-radius: 45px; display: flex; flex-direction: column; overflow: hidden; margin: 0 auto; box-shadow: 0 40px 100px rgba(0,0,0,0.8); }
         .ig-h { background: #000; padding: 35px 15px 10px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #1a1a1a; }
+        .ig-dot { width: 32px; height: 32px; border-radius: 50%; background: #222; border: 1px solid #333; }
         .ig-u { font-weight: 700; font-size: 0.85rem; }
 
         #chatLog { flex-grow: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #000; }
@@ -47,21 +54,21 @@
         .bot { background: #262626; align-self: flex-start; }
         .user { background: #3797f0; align-self: flex-end; }
 
-        /* Product Card */
+        /* Cards */
         .product-card {
             background: #1a1a1a; border-radius: 12px; overflow: hidden; border: 1px solid #333; margin: 10px 0; width: 220px;
             animation: popUp 0.3s ease-out; align-self: flex-start;
         }
-        .product-img { width: 100%; height: 160px; object-fit: cover; }
+        .product-img { width: 100%; height: 160px; object-fit: cover; background: #333; }
         .product-info { padding: 12px; }
-        .product-price { color: var(--orange); font-weight: 700; font-size: 0.9rem; margin: 5px 0; }
-        .btn-buy { background: #333; color: white; width: 100%; border: none; padding: 8px; border-radius: 6px; font-weight: 600; font-size: 0.75rem; cursor: pointer; }
+        .product-price { color: var(--orange); font-weight: 700; font-size: 0.9rem; margin-top: 4px; }
+        .btn-buy { background: #333; color: white; width: 100%; border: none; padding: 8px; border-radius: 6px; font-family: inherit; font-weight: 600; margin-top: 10px; }
 
         .ig-i { padding: 10px; background: #000; border-top: 1px solid #1a1a1a; }
-        #chatInput { background: #1a1a1a; border: 1px solid #333; border-radius: 20px; padding: 10px 15px; color: white; width: 100%; outline: none; }
+        #chatInput { background: #1a1a1a; border: 1px solid #333; border-radius: 20px; padding: 12px 15px; color: white; width: 100%; outline: none; }
 
-        @keyframes popUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @media (max-width: 900px) { body { grid-template-columns: 1fr; height: auto; overflow: auto; } }
+        @keyframes popUp { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @media (max-width: 900px) { body { grid-template-columns: 1fr; height: auto; overflow: auto; padding-top: 100px; } }
     </style>
 </head>
 <body>
@@ -73,35 +80,35 @@
             <span style="font-weight:700">KLIC SYSTEMAS</span>
         </div>
         <h1>Deep-Sync</h1>
-        <p>Conectá tu web y dejá que la IA aprenda de tus productos automáticamente.</p>
+        <p>Conectá tu catálogo web y dejá que nuestra IA aprenda de tus productos automáticamente.</p>
         
         <div class="input-group">
             <label>Nombre del Negocio</label>
-            <input type="text" id="bizName" placeholder="Ej: Pizzería Mario / Momma Kids">
+            <input type="text" id="bizName" placeholder="Ej: Momma Kids / Pizza Mario">
         </div>
 
         <div class="input-group">
-            <label>Enlace a tu Web / Tienda Nube (Opcional)</label>
+            <label>Enlace de tu Tienda / Web (Opcional)</label>
             <input type="text" id="bizUrl" placeholder="https://tu-tienda.com">
         </div>
         
         <div class="input-group">
-            <label>¿Qué vendes / Rubro?</label>
-            <textarea id="bizDesc" placeholder="Vende cuotas de autos / Pizzas gourmet." rows="2"></textarea>
+            <label>Rubro / ¿Qué vendés?</label>
+            <textarea id="bizDesc" placeholder="Describe brevemente tus productos estrella." rows="2"></textarea>
         </div>
 
-        <div class="sync-progress" id="syncBar">
-            <div class="active-progress" id="progressBar"></div>
+        <div class="sync-box" id="syncBox">
+            <div class="sync-bar"><div class="sync-fill" id="syncFill"></div></div>
+            <div class="sync-status">Analizando catálogo y metadatos...</div>
         </div>
-        <p id="syncText" style="font-size: 0.6rem; color: var(--gray); display: none;">Analizando catálogo...</p>
 
-        <button class="btn-run" id="startBtn">SINCRONIZAR CATÁLOGO ➔</button>
+        <button class="btn-run" id="startBtn">CONECTAR MI BOT ➔</button>
     </div>
 
     <div class="phone">
         <div class="ig-h">
             <div style="font-size: 1.2rem; margin-right: 5px;">‹</div>
-            <div style="width: 32px; height: 32px; border-radius: 50%; background: #444;"></div>
+            <div class="ig-dot"></div>
             <div class="ig-u" id="igTitle">Klic Lab</div>
         </div>
         <div id="chatLog">
@@ -120,33 +127,27 @@
         const chatLog = document.getElementById('chatLog');
         const chatInput = document.getElementById('chatInput');
         const igTitle = document.getElementById('igTitle');
-        const syncBar = document.getElementById('syncBar');
-        const progressBar = document.getElementById('progressBar');
-        const syncText = document.getElementById('syncText');
+        const syncBox = document.getElementById('syncBox');
+        const syncFill = document.getElementById('syncFill');
 
         let demoActive = false;
 
         startBtn.onclick = () => {
-            if(!bizNameInput.value) return alert("Faltan datos");
+            if(!bizNameInput.value) return alert("Faltan datos de configuración");
             
-            // Animación de Deep-Sync
+            // Efecto de Deep-Sync Avanzado
             startBtn.disabled = true;
-            startBtn.innerText = "Sincronizando...";
-            syncBar.style.display = "block";
-            syncText.style.display = "block";
-            progressBar.style.width = "0%";
-            
+            syncBox.style.display = "block";
+            setTimeout(() => syncFill.style.width = "100%", 50);
+
             setTimeout(() => {
-                progressBar.style.width = "100%";
-                setTimeout(() => {
-                    demoActive = true;
-                    igTitle.innerText = bizNameInput.value;
-                    chatLog.innerHTML = "";
-                    addMessage("bot", `¡Hola! Catálogo de ${bizNameInput.value} sincronizado con éxito. ¿Qué producto buscabas?`);
-                    startBtn.innerText = "¡CONECTADO ✓!";
-                    startBtn.disabled = false;
-                }, 2000);
-            }, 100);
+                demoActive = true;
+                igTitle.innerText = bizNameInput.value;
+                chatLog.innerHTML = "";
+                addMessage("bot", `¡Listo! Catálogo de ${bizNameInput.value} sincronizado. ¿Qué producto buscabas hoy?`);
+                startBtn.innerText = "¡SISTEMA CONECTADO ✓!";
+                startBtn.disabled = false;
+            }, 3000);
         };
 
         function addMessage(sender, text, product = null) {
@@ -160,11 +161,11 @@
                 const card = document.createElement("div");
                 card.className = "product-card";
                 card.innerHTML = `
-                    <img src="${product.img}" class="product-img" onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=300'">
+                    <img src="${product.img}" class="product-img" onerror="this.src='https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=300'">
                     <div class="product-info">
                         <div style="font-weight: 700; font-size: 0.8rem;">${product.name}</div>
                         <div class="product-price">${product.price}</div>
-                        <button class="btn-buy">Ver en Web ➔</button>
+                        <button class="btn-buy">Ver en Tienda ➔</button>
                     </div>
                 `;
                 chatLog.appendChild(card);
@@ -179,18 +180,23 @@
                 chatInput.value = "";
                 addMessage("user", text);
                 
-                const response = await fetch('/api/demo-chat', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        business_name: bizNameInput.value,
-                        business_description: bizDescInput.value,
-                        business_url: bizUrl.value,
-                        user_message: text
-                    })
-                });
-                const data = await response.json();
-                addMessage("bot", data.response, data.product);
+                try {
+                    const response = await fetch('/api/demo-chat', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                            business_name: bizNameInput.value,
+                            business_description: bizDescInput.value,
+                            business_url: bizUrl.value,
+                            store_mode: true,
+                            user_message: text
+                        })
+                    });
+                    const data = await response.json();
+                    addMessage("bot", data.response, data.product);
+                } catch (err) {
+                    addMessage("bot", "Hubo un error de sincronización.");
+                }
             }
         };
     </script>
