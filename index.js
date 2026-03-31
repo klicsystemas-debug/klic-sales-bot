@@ -18,7 +18,7 @@ app.get('/webhook', (req, res) => {
   else res.sendStatus(403);
 });
 
-// Demo API con Modo E-commerce Simulator
+// Demo API con Catálogo Real de Momma Kids (Simulado)
 app.post('/api/demo-chat', async (req, res) => {
   const { business_name, business_description, business_tone, store_mode, user_message, chat_history = [] } = req.body;
 
@@ -30,24 +30,29 @@ app.post('/api/demo-chat', async (req, res) => {
     IDENTIDAD: Eres el especialista de '${business_name}' para '${business_description}'.
     PERSONALIDAD: '${business_tone || 'Cordial'}'.
     REGLA: Responde en MÁXIMO 1 o 2 oraciones cortas. 🛑
-    E-COMMERCE: Si el cliente busca algo, el sistema mostrará una card visual automáticamente.
+    E-COMMERCE: El sistema mostrará la card visual de tus productos reales de Momma Kids automáticamente.
   `;
 
   try {
     let extraData = {};
     const textLower = (user_message || "").toLowerCase();
     
-    // Simulación de Catálogo Dinámico
+    // Simulación de Catálogo con Links Reales de Momma Kids
     if(store_mode) {
-      if(textLower.includes('conejo') || textLower.includes('cuadro')) {
+      if(textLower.includes('jirafa') || textLower.includes('jirafita')) {
         extraData.product = { 
-          img: 'https://images.unsplash.com/photo-1591769225440-811ad7d62ca2?auto=format&fit=crop&q=80&w=400', 
-          price: '$4.500', name: 'Cuadro Conejito Art' 
+          img: 'https://dcdn-us.mitiendanube.com/stores/006/549/339/products/jirafita-cf9cd8c38928b8dfd717642580406307-1024-1024.webp', 
+          price: '$29.000,00', name: 'Cuadro Jirafa Gum' 
         };
-      } else if(textLower.includes('neumatico') || textLower.includes('rueda')) {
+      } else if(textLower.includes('conejo') || textLower.includes('apego')) {
         extraData.product = { 
-          img: 'https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&q=80&w=400', 
-          price: '$120.000', name: 'Neumático Classic Premium' 
+          img: 'https://dcdn-us.mitiendanube.com/stores/006/549/339/products/conejito-grey-38e56c535a7182063b17540855008397-1024-1024.webp', 
+          price: '$43.000,00', name: 'Muñeco Apego Conejo Gris' 
+        };
+      } else if(textLower.includes('set') || textLower.includes('bebe') || textLower.includes('animales')) {
+        extraData.product = { 
+          img: 'https://dcdn-us.mitiendanube.com/stores/006/549/339/products/animalitos-bebe-084d59a7f34c26a79817165840673322-1024-1024.webp', 
+          price: '$89.000,00', name: 'Set Cuadros Animalitos Bebé' 
         };
       }
     }
