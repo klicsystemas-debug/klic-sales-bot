@@ -132,14 +132,44 @@
         const syncFill = document.getElementById('syncFill');
 
         let demoActive = false;
+        let chatHistory = [];
+        let scrapedContent = "";
 
-        startBtn.onclick = () => {
-            if(!bizNameInput.value) return alert("Faltan datos de configuración");
+        startBtn.onclick = async () => {
+            if(!bizNameInput.value) return alert("Completá el nombre del negocio");
             
-            // Efecto de Deep-Sync Avanzado
             startBtn.disabled = true;
             syncBox.style.display = "block";
-            setTimeout(() => syncFill.style.width = "100%", 50);
+            
+            // Si hay URL, scrapeamos la web
+            if(bizUrl.value.trim()) {
+                document.querySelector('.sync-status').innerText = "Conectando con la web...";
+                setTimeout(() => syncFill.style.width = "30%", 50);
+                
+                try {
+                    const scrapeRes = await fetch('/api/scrape', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ url: bizUrl.value.trim() })
+                    });
+                    const scrapeData = await scrapeRes.json();
+                    
+                    if(scrapeData.success && scrapeData.content) {
+                        scrapedContent = scrapeData.content;
+                        document.querySelector('.sync-status').innerText = `Web leída: ${scrapeData.chars} caracteres extraídos`;
+                        syncFill.style.width = "100%";
+                    } else {
+                        document.querySelector('.sync-status').innerText = "No se pudo leer la web, el bot usará la descripción";
+                        syncFill.style.width = "100%";
+                    }
+                } catch(e) {
+                    document.querySelector('.sync-status').innerText = "Error de conexión, el bot usará la descripción";
+                    syncFill.style.width = "100%";
+                }
+            } else {
+                document.querySelector('.sync-status').innerText = "Sin URL, el bot usará la descripción del rubro";
+                setTimeout(() => syncFill.style.width = "100%", 50);
+            }
 
             setTimeout(() => {
                 demoActive = true;
@@ -147,35 +177,19 @@
                 igTitle.innerText = bizNameInput.value;
                 chatLog.innerHTML = "";
                 addMessage("bot", `¡Hola! Soy de ${bizNameInput.value}, ¿en qué te puedo ayudar? 😊`);
-                startBtn.innerText = "¡SISTEMA CONECTADO ✓!";
+                startBtn.innerText = "¡CONECTADO ✓!";
                 startBtn.disabled = false;
-            }, 3000);
+            }, 2000);
         };
 
-        function addMessage(sender, text, product = null) {
-            if(text) {
-                const div = document.createElement("div");
-                div.className = "msg " + sender;
-                div.innerText = text;
-                chatLog.appendChild(div);
-            }
-            if(product) {
-                const card = document.createElement("div");
-                card.className = "product-card";
-                card.innerHTML = `
-                    <img src="${product.img}" class="product-img" onerror="this.src='https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=300'">
-                    <div class="product-info">
-                        <div style="font-weight: 700; font-size: 0.8rem;">${product.name}</div>
-                        <div class="product-price">${product.price}</div>
-                        <button class="btn-buy">Ver en Tienda ➔</button>
-                    </div>
-                `;
-                chatLog.appendChild(card);
-            }
+        function addMessage(sender, text) {
+            if(!text) return;
+            const div = document.createElement("div");
+            div.className = "msg " + sender;
+            div.innerText = text;
+            chatLog.appendChild(div);
             chatLog.scrollTop = chatLog.scrollHeight;
         }
-
-        let chatHistory = [];
 
         chatInput.onkeypress = async (e) => {
             if(e.key === 'Enter') {
@@ -192,6 +206,7 @@
                             business_name: bizNameInput.value,
                             business_description: bizDescInput.value,
                             business_url: bizUrl.value,
+                            scraped_content: scrapedContent,
                             user_message: text,
                             chat_history: chatHistory
                         })
@@ -199,7 +214,6 @@
                     const data = await response.json();
                     addMessage("bot", data.response);
                     
-                    // Acumular historial para que la IA tenga memoria
                     chatHistory.push({ role: "user", content: text });
                     chatHistory.push({ role: "assistant", content: data.response });
                 } catch (err) {
