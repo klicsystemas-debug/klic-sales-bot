@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klic Systemas | AI-Powered Sales Automation</title>
+    <title>Klic Systemas | Automatización de Ventas con IA</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -16,6 +16,7 @@
             --text-main: #ffffff;
             --text-dim: #adbdcc;
             --white: #ffffff;
+            --phone-bg: #000;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,7 +24,6 @@
             font-family: 'Outfit', sans-serif;
             background-color: var(--navy);
             color: var(--text-main);
-            line-height: 1.6;
             overflow-x: hidden;
         }
 
@@ -32,8 +32,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem 5%;
-            background: rgba(5, 22, 46, 0.8);
+            padding: 1rem 5%;
+            background: rgba(5, 22, 46, 0.9);
             backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
@@ -42,105 +42,121 @@
         }
 
         .logo-container { display: flex; align-items: center; gap: 0.8rem; }
-        .logo-img { height: 45px; width: auto; }
-        .logo-text { font-weight: 700; font-size: 1.5rem; letter-spacing: -0.5px; }
-
-        nav { display: flex; align-items: center; gap: 2.5rem; }
-        nav a { text-decoration: none; color: var(--text-main); font-weight: 400; font-size: 1rem; transition: 0.3s; }
-        nav a:hover { color: var(--orange); }
+        .logo-img { height: 40px; width: auto; border-radius: 50%; }
+        .logo-text { font-weight: 700; font-size: 1.4rem; letter-spacing: -0.5px; }
 
         .btn-trial {
             background: var(--orange);
             color: white;
-            padding: 0.8rem 1.5rem;
+            padding: 0.6rem 1.2rem;
             border-radius: 4px;
             font-weight: 600;
-            text-transform: none;
+            text-decoration: none;
             transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            font-size: 0.9rem;
         }
-        .btn-trial:hover { background: var(--orange-hover); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3); }
+        .btn-trial:hover { background: var(--orange-hover); box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4); }
 
         /* Hero Section */
         .hero {
             display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            min-height: 85vh;
+            grid-template-columns: 1fr 1fr;
+            min-height: 90vh;
             align-items: center;
-            padding: 4rem 5%;
-            max-width: 1400px;
+            padding: 2rem 5%;
+            max-width: 1300px;
             margin: 0 auto;
             gap: 4rem;
         }
 
-        .hero-content { animation: fadeInRight 0.8s ease-out; }
-        .hero-tag { color: var(--orange); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 1rem; display: block; }
         .hero h1 { font-size: 4rem; font-weight: 700; line-height: 1.1; margin-bottom: 1.5rem; }
-        .hero p { font-size: 1.25rem; color: var(--text-dim); margin-bottom: 2.5rem; max-width: 600px; }
+        .hero p { font-size: 1.2rem; color: var(--text-dim); margin-bottom: 2.5rem; }
 
-        .cta-group { display: flex; align-items: center; gap: 2rem; }
-        .btn-main { background: var(--orange); color: white; padding: 1rem 2rem; border-radius: 4px; font-weight: 700; font-size: 1.1rem; border: none; cursor: pointer; transition: 0.3s; }
-        .btn-main:hover { background: var(--orange-hover); }
-        .btn-sec { color: var(--text-main); text-decoration: none; font-weight: 600; border-bottom: 2px solid var(--orange); padding-bottom: 2px; }
-
-        /* PRODUCT / DEMO BOX (Tricentis-Like) */
-        .hero-visual { position: relative; }
-        #demoLab {
-            background: #0f172a;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 40px 100px -20px rgba(0,0,0,0.8);
+        /* SMARTPHONE MOCKUP */
+        .phone-container {
             position: relative;
-            z-index: 2;
-        }
-
-        .demo-browser-bar {
-            display: flex;
-            gap: 6px;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding-bottom: 0.5rem;
-        }
-        .dot { width: 10px; height: 10px; border-radius: 50%; background: #334155; }
-
-        .demo-form { margin-bottom: 1.5rem; }
-        .input-group { margin-bottom: 1rem; }
-        label { display: block; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 0.4rem; }
-        input, textarea {
-            width: 100%;
-            background: #1e293b;
-            border: 1px solid #334155;
-            padding: 0.7rem;
-            color: white;
-            border-radius: 4px;
-            font-size: 0.95rem;
-        }
-
-        /* Chat UI */
-        #chatBox {
-            height: 300px;
-            background: #020617;
-            border-radius: 8px;
+            width: 320px;
+            height: 640px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border-radius: 40px;
+            border: 8px solid #222;
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.9);
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            border: 1px solid rgba(255,115,22,0.2);
         }
-        #chatLog { flex-grow: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.7rem; }
-        .msg { padding: 0.7rem 1rem; border-radius: 6px; font-size: 0.9rem; max-width: 85%; }
-        .bot { background: rgba(51, 65, 85, 0.5); align-self: flex-start; border-left: 3px solid var(--orange); }
-        .user { background: var(--orange); align-self: flex-end; font-weight: 500; }
-        #chatInput { background: transparent; border: none; border-top: 1px solid #1e293b; padding: 0.8rem; color: white; width: 100%; }
 
-        @keyframes fadeInRight { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+        .phone-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 25px;
+            background: #222;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            z-index: 10;
+        }
+
+        .phone-header {
+            background: #000;
+            padding: 40px 15px 10px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .ig-back { color: var(--white); font-size: 1.2rem; }
+        .ig-profile-pic { width: 30px; height: 30px; border-radius: 50%; background: var(--orange); }
+        .ig-username { font-size: 0.8rem; font-weight: 600; color: white; }
+
+        #chatLog {
+            flex-grow: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            background: #000;
+        }
+
+        .msg { padding: 0.6rem 1rem; border-radius: 18px; font-size: 0.85rem; max-width: 80%; line-height: 1.3; }
+        .bot { background: #262626; color: white; align-self: flex-start; }
+        .user { background: #3797f0; color: white; align-self: flex-end; }
+
+        .phone-input-bar {
+            background: #000;
+            padding: 10px;
+            border-top: 1px solid #333;
+        }
+        #chatInput {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 20px;
+            padding: 8px 15px;
+            color: white;
+            width: 100%;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        /* Config Form */
+        .config-box {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .v-stack { display: flex; flex-direction: column; gap: 1rem; }
+        .btn-main { background: var(--orange); color: white; padding: 1rem 2rem; border-radius: 4px; border: none; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .btn-main:hover { background: var(--orange-hover); }
 
         @media (max-width: 1024px) {
             .hero { grid-template-columns: 1fr; text-align: center; }
-            .hero p { margin: 0 auto 2.5rem; }
-            .cta-group { justify-content: center; }
-            nav { display: none; }
+            .hero h1 { font-size: 2.5rem; }
         }
     </style>
 </head>
@@ -148,54 +164,54 @@
 
     <header>
         <div class="logo-container">
-            <img src="logo.png" alt="Klic" class="logo-img" onerror="this.style.display='none'">
+            <!-- Intentamos varias rutas posibles para el logo -->
+            <img src="Logo.png" alt="🔍" class="logo-img" id="mainLogo" onerror="this.src='logo.png'; this.onerror=null;">
             <span class="logo-text">KLIC SYSTEMAS</span>
         </div>
         <nav>
-            <a href="#">Soluciones</a>
-            <a href="#">Servicios</a>
-            <a href="#">Contacto</a>
-            <a href="https://wa.me/TU_NUMERO" class="btn-trial">
-                Probar Demo ahora ➔
-            </a>
+            <a href="https://wa.me/TU_NUMERO" class="btn-trial">Consultar ahora</a>
         </nav>
     </header>
 
     <section class="hero">
         <div class="hero-content">
-            <span class="hero-tag">Klic Sales Agent</span>
-            <h1>AI-powered sales automation for Instagram</h1>
+            <h1 id="heroTitle">Automatización de Ventas con IA para Instagram</h1>
             <p>
-                Nuestra IA permite que tu equipo de ventas cierre tratos más rápido y con menos esfuerzo. Automatizamos tus DMs con un tono humano que asegura la calidad y el seguimiento de cada lead.
+                Asignamos un vendedor de inteligencia artificial a tu negocio que cierra tratos 24/7 con un tono 100% humano. 
             </p>
-            <div class="cta-group">
-                <button class="btn-main" onclick="document.getElementById('bizName').focus()">Iniciar Demo Gratis</button>
-                <a href="#" class="btn-sec">Ver más servicios</a>
+            
+            <div class="config-box">
+                <div class="v-stack">
+                    <input type="text" id="bizName" placeholder="Pon aquí el nombre de tu negocio...">
+                    <button class="btn-main" id="startBtn">Configurar Demo en el Teléfono ➔</button>
+                    <p style="font-size: 0.7rem; color: #64748b; text-align: center;">Configura tu negocio y prueba el chat a la derecha</p>
+                </div>
+            </div>
+            
+            <div style="display:none">
+                <textarea id="bizDesc">Vendedor experto en instagram.</textarea>
             </div>
         </div>
 
         <div class="hero-visual">
-            <div id="demoLab">
-                <div class="demo-browser-bar">
-                    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-                    <span style="font-size: 0.7rem; color: #475569; margin-left: 10px;">klic-lab-demo.app</span>
+            <div class="phone-container">
+                <div class="phone-notch"></div>
+                <div class="phone-header">
+                    <span class="ig-back">‹</span>
+                    <div class="ig-profile-pic"></div>
+                    <div>
+                        <div class="ig-username" id="igName">Chat de Demo</div>
+                        <div style="font-size: 0.6rem; color: #a8a8a8;">Activo ahora</div>
+                    </div>
                 </div>
                 
-                <div class="demo-form">
-                    <div class="input-group">
-                        <label>Nombre de tu Negocio</label>
-                        <input type="text" id="bizName" placeholder="Ej: Pizzería Mario">
-                    </div>
-                    <div class="input-group" style="display:none">
-                        <textarea id="bizDesc">Negocio de ventas general.</textarea>
-                    </div>
-                    <button class="btn-main" style="width:100%; font-size: 0.9rem; padding: 0.7rem;" id="startBtn">Conectar IA de Ventas</button>
+                <div id="chatLog">
+                    <!-- Los mensajes aparecen aquí -->
+                    <div style="text-align: center; color: #333; margin-top: 50%; font-size: 0.7rem;">Configura tu negocio para empezar</div>
                 </div>
-
-                <div id="chatBox">
-                    <div id="statusText" style="padding: 0.4rem; background: #0f172a; font-size: 0.7rem; text-align: center; color: var(--orange);">System Offline</div>
-                    <div id="chatLog"></div>
-                    <input type="text" id="chatInput" placeholder="Haz una pregunta al bot..." autocomplete="off">
+                
+                <div class="phone-input-bar">
+                    <input type="text" id="chatInput" placeholder="Enviar mensaje..." autocomplete="off">
                 </div>
             </div>
         </div>
@@ -205,23 +221,22 @@
         const bizNameInput = document.getElementById('bizName');
         const bizDescInput = document.getElementById('bizDesc');
         const startBtn = document.getElementById('startBtn');
-        const chatBox = document.getElementById('chatBox');
         const chatLog = document.getElementById('chatLog');
         const chatInput = document.getElementById('chatInput');
-        const statusText = document.getElementById('statusText');
+        const igName = document.getElementById('igName');
 
         let demoActive = false;
         let chatHistory = [];
 
         startBtn.onclick = () => {
-            if(!bizNameInput.value) return alert("Ingresa el nombre del negocio");
+            if(!bizNameInput.value) return alert("Por favor, ingresa el nombre de tu negocio.");
             demoActive = true;
             chatHistory = [];
-            statusText.innerText = "Robot de " + bizNameInput.value + " Online";
-            statusText.style.color = "#22c55e";
+            igName.innerText = bizNameInput.value;
             chatLog.innerHTML = "";
-            addMessage("bot", `¡Hola! ¿Cómo estás? Soy parte del equipo de ${bizNameInput.value}. ¿En que podemos ayudarte con tu consulta hoy?`);
-            startBtn.innerText = "Reiniciar Robot";
+            addMessage("bot", `¡Hola! ¿Cómo estás? Soy parte del equipo de ${bizNameInput.value}. ¿En que podemos ayudarte hoy?`);
+            startBtn.innerText = "Negocio Actualizado ✓";
+            setTimeout(() => startBtn.innerText = "Actualizar Configuración ➔", 2000);
         };
 
         function addMessage(sender, text, id = null) {
@@ -240,7 +255,7 @@
                 chatInput.value = "";
                 addMessage("user", text);
                 const typingId = "typing_" + Date.now();
-                addMessage("bot", "Procesando...", typingId);
+                addMessage("bot", "...", typingId);
                 try {
                     const response = await fetch('/api/demo-chat', {
                         method: 'POST',
@@ -259,7 +274,7 @@
                     chatHistory.push({ role: "assistant", content: data.response });
                     if(chatHistory.length > 10) chatHistory.shift();
                 } catch (err) {
-                    document.getElementById(typingId).innerText = "Error de conexión";
+                    document.getElementById(typingId).innerText = "Error";
                 }
             }
         };
