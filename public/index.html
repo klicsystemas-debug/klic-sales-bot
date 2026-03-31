@@ -3,235 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klic Systemas | Agencia de IA para Ventas</title>
+    <title>Klic Systemas | AI-Powered Sales Automation</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0f172a;
-            --accent: #38bdf8;
-            --accent-alt: #818cf8;
-            --glass: rgba(15, 23, 42, 0.7);
-            --gold: #f59e0b;
+            --navy: #05162e;
+            --navy-light: #0a2540;
+            --orange: #f97316;
+            --orange-hover: #ea580c;
+            --text-main: #ffffff;
+            --text-dim: #adbdcc;
+            --white: #ffffff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Outfit', sans-serif;
-            background: radial-gradient(circle at top right, #1e1b4b, #0f172a, #020617);
-            color: white;
-            min-height: 100vh;
+            background-color: var(--navy);
+            color: var(--text-main);
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
+        /* Nav Header */
         header {
-            padding: 1rem;
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background: rgba(5, 22, 46, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        .logo-klic {
-            height: 120px;
-            width: auto;
-            margin: 0 auto;
-            display: block;
-            filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.3));
-        }
+        .logo-container { display: flex; align-items: center; gap: 0.8rem; }
+        .logo-img { height: 45px; width: auto; }
+        .logo-text { font-weight: 700; font-size: 1.5rem; letter-spacing: -0.5px; }
 
-        .hero {
-            padding: 4rem 2rem;
-            text-align: center;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+        nav { display: flex; align-items: center; gap: 2.5rem; }
+        nav a { text-decoration: none; color: var(--text-main); font-weight: 400; font-size: 1rem; transition: 0.3s; }
+        nav a:hover { color: var(--orange); }
 
-        .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; line-height: 1.1; }
-        .hero p { font-size: 1.2rem; color: #94a3b8; margin-bottom: 2rem; }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        /* Demo Lab Card */
-        #demoLab {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 2rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        .demo-title { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
-        .demo-title h2 { font-size: 1.8rem; color: var(--accent); }
-
-        .input-group { margin-bottom: 1rem; }
-        label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: #94a3b8; }
-        input, textarea {
-            width: 100%;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 0.8rem;
-            border-radius: 12px;
+        .btn-trial {
+            background: var(--orange);
             color: white;
-            font-size: 1rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: none;
             transition: 0.3s;
-        }
-        input:focus, textarea:focus { border-color: var(--accent); outline: none; }
-
-        .btn-start {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(to right, var(--accent), var(--accent-alt));
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 1rem;
-        }
-        .btn-start:hover { transform: scale(1.02); filter: brightness(1.1); box-shadow: 0 0 20px rgba(56, 189, 248, 0.3); }
-
-        /* Chat Widget */
-        #chatBox {
-            margin-top: 2rem;
-            height: 350px;
-            display: flex;
-            flex-direction: column;
-            background: rgba(0,0,0,0.3);
-            border-radius: 16px;
-            overflow: hidden;
-            opacity: 0.5;
-            pointer-events: none;
-            transition: 0.5s;
-        }
-
-        #chatLog {
-            flex-grow: 1;
-            padding: 1rem;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-
-        .msg { padding: 0.8rem 1rem; border-radius: 12px; max-width: 85%; font-size: 0.95rem; line-height: 1.4; animation: slideIn 0.3s ease-out; }
-        .bot { background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.2); align-self: flex-start; }
-        .user { background: var(--accent-alt); align-self: flex-end; }
-
-        #chatInput { background: transparent; border: none; border-top: 1px solid rgba(255,255,255,0.1); padding: 1rem; }
-
-        /* Why Klic */
-        .features { list-style: none; }
-        .feature-item { 
-            margin-bottom: 2rem; 
-            padding: 1.5rem; 
-            background: rgba(255,255,255,0.02); 
-            border-radius: 16px; 
-            border-left: 4px solid var(--accent);
-        }
-        .feature-item h3 { color: var(--gold); margin-bottom: 0.5rem; font-size: 1.4rem; }
-        .feature-item p { color: #94a3b8; line-height: 1.5; }
-
-        /* Floating Contact Button */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: #25d366;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            color: white;
-            text-decoration: none;
-            font-weight: 700;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
-            transition: 0.3s;
-            z-index: 100;
         }
-        .whatsapp-float:hover { transform: translateY(-5px); }
+        .btn-trial:hover { background: var(--orange-hover); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3); }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+        /* Hero Section */
+        .hero {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            min-height: 85vh;
+            align-items: center;
+            padding: 4rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 4rem;
+        }
 
-        @media (max-width: 900px) {
-            .container { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 2.5rem; }
+        .hero-content { animation: fadeInRight 0.8s ease-out; }
+        .hero-tag { color: var(--orange); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 1rem; display: block; }
+        .hero h1 { font-size: 4rem; font-weight: 700; line-height: 1.1; margin-bottom: 1.5rem; }
+        .hero p { font-size: 1.25rem; color: var(--text-dim); margin-bottom: 2.5rem; max-width: 600px; }
+
+        .cta-group { display: flex; align-items: center; gap: 2rem; }
+        .btn-main { background: var(--orange); color: white; padding: 1rem 2rem; border-radius: 4px; font-weight: 700; font-size: 1.1rem; border: none; cursor: pointer; transition: 0.3s; }
+        .btn-main:hover { background: var(--orange-hover); }
+        .btn-sec { color: var(--text-main); text-decoration: none; font-weight: 600; border-bottom: 2px solid var(--orange); padding-bottom: 2px; }
+
+        /* PRODUCT / DEMO BOX (Tricentis-Like) */
+        .hero-visual { position: relative; }
+        #demoLab {
+            background: #0f172a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 40px 100px -20px rgba(0,0,0,0.8);
+            position: relative;
+            z-index: 2;
+        }
+
+        .demo-browser-bar {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 0.5rem;
+        }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: #334155; }
+
+        .demo-form { margin-bottom: 1.5rem; }
+        .input-group { margin-bottom: 1rem; }
+        label { display: block; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 0.4rem; }
+        input, textarea {
+            width: 100%;
+            background: #1e293b;
+            border: 1px solid #334155;
+            padding: 0.7rem;
+            color: white;
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+
+        /* Chat UI */
+        #chatBox {
+            height: 300px;
+            background: #020617;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255,115,22,0.2);
+        }
+        #chatLog { flex-grow: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.7rem; }
+        .msg { padding: 0.7rem 1rem; border-radius: 6px; font-size: 0.9rem; max-width: 85%; }
+        .bot { background: rgba(51, 65, 85, 0.5); align-self: flex-start; border-left: 3px solid var(--orange); }
+        .user { background: var(--orange); align-self: flex-end; font-weight: 500; }
+        #chatInput { background: transparent; border: none; border-top: 1px solid #1e293b; padding: 0.8rem; color: white; width: 100%; }
+
+        @keyframes fadeInRight { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+
+        @media (max-width: 1024px) {
+            .hero { grid-template-columns: 1fr; text-align: center; }
+            .hero p { margin: 0 auto 2.5rem; }
+            .cta-group { justify-content: center; }
+            nav { display: none; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo-klic">KLIC SYSTEMAS</div>
+        <div class="logo-container">
+            <img src="logo.png" alt="Klic" class="logo-img" onerror="this.style.display='none'">
+            <span class="logo-text">KLIC SYSTEMAS</span>
+        </div>
+        <nav>
+            <a href="#">Soluciones</a>
+            <a href="#">Servicios</a>
+            <a href="#">Contacto</a>
+            <a href="https://wa.me/TU_NUMERO" class="btn-trial">
+                Probar Demo ahora ➔
+            </a>
+        </nav>
     </header>
 
-    <div class="hero">
-        <h1>Transformamos tu Instagram en una Máquina de Ventas</h1>
-        <p>Automatizamos tus DMs con IA de última generación que vende como un humano. Menos tiempo respondiendo, más tiempo vendiendo.</p>
-    </div>
-
-    <div class="container">
-        
-        <div class="info">
-            <ul class="features">
-                <li class="feature-item">
-                    <h3>Ventas 24/7 sin límites</h3>
-                    <p>Tu bot nunca duerme. Responde al instante a las 4 AM o en pleno feriado, cerrando ventas mientras descansas.</p>
-                </li>
-                <li class="feature-item">
-                    <h3>IA con Tono Humano</h3>
-                    <p>Olvídate de los bots robóticos. Nuestra tecnología se adapta al tono de tu marca, asesorando genuinamente a tus clientes.</p>
-                </li>
-                <li class="feature-item">
-                    <h3>Captura de Leads Estratégica</h3>
-                    <p>El bot no solo da información, magnetiza al cliente para obtener su contacto y cerrar la venta por WhatsApp o Web.</p>
-                </li>
-            </ul>
-        </div>
-
-        <div id="demoLab">
-            <div class="demo-title">
-                <h2>Demo Interactiva</h2>
-            </div>
-            <p style="margin-bottom: 1.5rem; color: #94a3b8;">Configurá un negocio de prueba y hablá con tu futuro vendedor:</p>
-            
-            <div class="input-group">
-                <label>Nombre del Negocio</label>
-                <input type="text" id="bizName" placeholder="Ej: Pizzería Don Mario">
-            </div>
-            <div class="input-group">
-                <label>Descripción del Negocio (Breve)</label>
-                <textarea id="bizDesc" placeholder="Ej: Vendo pizzas artesanales con envío a domicilio en Palermo." rows="2"></textarea>
-            </div>
-            
-            <button class="btn-start" id="startBtn">INICIAR DEMO IA</button>
-
-            <div id="chatBox">
-                <div id="statusText" style="padding: 0.5rem; background: rgba(0,0,0,0.5); font-size: 0.8rem; text-align: center; color: var(--accent);">IA Desconectada</div>
-                <div id="chatLog"></div>
-                <input type="text" id="chatInput" placeholder="Escribe tu duda aquí..." autocomplete="off">
+    <section class="hero">
+        <div class="hero-content">
+            <span class="hero-tag">Klic Sales Agent</span>
+            <h1>AI-powered sales automation for Instagram</h1>
+            <p>
+                Nuestra IA permite que tu equipo de ventas cierre tratos más rápido y con menos esfuerzo. Automatizamos tus DMs con un tono humano que asegura la calidad y el seguimiento de cada lead.
+            </p>
+            <div class="cta-group">
+                <button class="btn-main" onclick="document.getElementById('bizName').focus()">Iniciar Demo Gratis</button>
+                <a href="#" class="btn-sec">Ver más servicios</a>
             </div>
         </div>
 
-    </div>
+        <div class="hero-visual">
+            <div id="demoLab">
+                <div class="demo-browser-bar">
+                    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    <span style="font-size: 0.7rem; color: #475569; margin-left: 10px;">klic-lab-demo.app</span>
+                </div>
+                
+                <div class="demo-form">
+                    <div class="input-group">
+                        <label>Nombre de tu Negocio</label>
+                        <input type="text" id="bizName" placeholder="Ej: Pizzería Mario">
+                    </div>
+                    <div class="input-group" style="display:none">
+                        <textarea id="bizDesc">Negocio de ventas general.</textarea>
+                    </div>
+                    <button class="btn-main" style="width:100%; font-size: 0.9rem; padding: 0.7rem;" id="startBtn">Conectar IA de Ventas</button>
+                </div>
 
-    <a href="https://wa.me/TU_NUMERO" class="whatsapp-float" id="waLink">
-        <span>Hablar con un Humano</span> ➔
-    </a>
+                <div id="chatBox">
+                    <div id="statusText" style="padding: 0.4rem; background: #0f172a; font-size: 0.7rem; text-align: center; color: var(--orange);">System Offline</div>
+                    <div id="chatLog"></div>
+                    <input type="text" id="chatInput" placeholder="Haz una pregunta al bot..." autocomplete="off">
+                </div>
+            </div>
+        </div>
+    </section>
 
     <script>
         const bizNameInput = document.getElementById('bizName');
@@ -246,15 +214,14 @@
         let chatHistory = [];
 
         startBtn.onclick = () => {
-            if(!bizNameInput.value) return alert("Por favor, ingresa el nombre del negocio.");
+            if(!bizNameInput.value) return alert("Ingresa el nombre del negocio");
             demoActive = true;
             chatHistory = [];
-            chatBox.style.opacity = "1";
-            chatBox.style.pointerEvents = "all";
-            statusText.innerText = "Robot de " + bizNameInput.value + " Conectado";
+            statusText.innerText = "Robot de " + bizNameInput.value + " Online";
+            statusText.style.color = "#22c55e";
             chatLog.innerHTML = "";
-            addMessage("bot", `¡Hola! ¿Cómo estás? Soy parte del equipo de ${bizNameInput.value}. ¿En qué podemos ayudarte hoy?`);
-            startBtn.innerText = "Reiniciar Demo";
+            addMessage("bot", `¡Hola! ¿Cómo estás? Soy parte del equipo de ${bizNameInput.value}. ¿En que podemos ayudarte con tu consulta hoy?`);
+            startBtn.innerText = "Reiniciar Robot";
         };
 
         function addMessage(sender, text, id = null) {
@@ -270,13 +237,10 @@
             if(e.key === 'Enter' && !e.shiftKey) {
                 const text = chatInput.value.trim();
                 if(!text || !demoActive) return;
-                
                 chatInput.value = "";
                 addMessage("user", text);
-                
                 const typingId = "typing_" + Date.now();
-                addMessage("bot", "Analizando...", typingId);
-                
+                addMessage("bot", "Procesando...", typingId);
                 try {
                     const response = await fetch('/api/demo-chat', {
                         method: 'POST',
@@ -291,12 +255,11 @@
                     const data = await response.json();
                     document.getElementById(typingId).remove();
                     addMessage("bot", data.response);
-
                     chatHistory.push({ role: "user", content: text });
                     chatHistory.push({ role: "assistant", content: data.response });
                     if(chatHistory.length > 10) chatHistory.shift();
                 } catch (err) {
-                    document.getElementById(typingId).innerText = "Error de conexión con la IA";
+                    document.getElementById(typingId).innerText = "Error de conexión";
                 }
             }
         };
