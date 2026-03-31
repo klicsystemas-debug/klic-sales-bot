@@ -25,13 +25,15 @@ app.post('/api/scrape', async (req, res) => {
     });
     const html = await response.text();
 
-    // Extraer texto visible: quitar tags, scripts, styles
+    // Extraer texto visible y mantener links útiles
     let text = html
       .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
       .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
       .replace(/<nav[^>]*>[\s\S]*?<\/nav>/gi, '')
       .replace(/<footer[^>]*>[\s\S]*?<\/footer>/gi, '')
       .replace(/<header[^>]*>[\s\S]*?<\/header>/gi, '')
+      // Mantener links de productos/categorías
+      .replace(/<a\s+(?:[^>]*?\s+)?href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi, ' $2 [Link: $1] ')
       .replace(/<[^>]+>/g, ' ')
       .replace(/&[a-z]+;/gi, ' ')
       .replace(/\s+/g, ' ')
@@ -94,13 +96,24 @@ REGLAS INQUEBRANTABLES
 
 7. NO SEAS UN FELPUDO: Sé amable pero firme. No te disculpes por todo.
 
-8. HABLÁ NATURAL: Sin "che", "rey", "crack". Directo y simple.
-   No termines todo con "¿no?" ni "¿te parece?".
+8. PALABRAS PROHIBIDAS (nunca las uses):
+   "che", "rey", "crack", "capo", "genio", "maestro".
+   No termines oraciones con "¿no?" ni "¿te parece?".
+   Hablá simple: "dale", "listo", "genial" están bien. Nada más.
 
 9. MANTENÉ EL HILO: "dale" o "sí" = seguí vendiendo, no reinicies.
 
 10. FOCO: Baterías = baterías, no neumáticos. Empanadas = empanadas, no pizzas.
-`;
+
+11. NO MANDÉS FOTOS NI IMÁGENES DENTRO DEL CHAT:
+    Sos un chat de texto. NO podés adjuntar fotos acá. Nunca digas "acá te mando la foto".
+    Si el cliente pide fotos, mandale el link exacto del producto.
+
+12. CÓMO USAR LOS LINKS ESPECÍFICOS DE PRODUCTOS:
+    En el texto extraído de la web, verás cosas como "Cuadro Jirafa [Link: /productos/jirafa]".
+    Si te piden ver ese cuadro en particular, construí el link completo sumando 
+    la Web del negocio + la ruta: "Podés verlo en detalle acá: https://tu-tienda.com/productos/jirafa"
+    Si el Link ya empieza con "http", solo pasale ese original.`;
 
   try {
     const aiResponse = await generateSalesResponse("Cliente", user_message, demoPrompt, chat_history);
