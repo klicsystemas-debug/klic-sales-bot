@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klic Lab | Demo Estable</title>
+    <title>Klic Lab | Deep-Sync Edition</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -24,14 +24,16 @@
         /* Config */
         .config-card { max-width: 450px; }
         .logo-k { display: flex; align-items: center; gap: 10px; margin-bottom: 2rem; cursor: pointer; }
-        .logo-img-fix { height: 40px; min-width: 40px; background: rgba(255,255,255,0.05); border-radius: 8px; object-fit: cover; }
+        .logo-img-fix { height: 40px; }
 
         .config-card h1 { font-size: 2.2rem; margin-bottom: 0.5rem; color: var(--orange); }
         .input-group { margin-bottom: 1.2rem; }
         label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--gray); margin-bottom: 4px; }
         input, textarea, select { width: 100%; background: #0f172a; border: 1px solid #1e293b; padding: 12px; color: white; border-radius: 6px; }
 
-        .simulation-switch { background: rgba(255,255,255,0.03); padding: 1rem; border-radius: 10px; border: 1px solid #1e293b; display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; }
+        /* DEEP SYNC ANIMATION */
+        .sync-progress { height: 4px; background: #1e293b; border-radius: 2px; overflow: hidden; margin: 15px 0; display: none; }
+        .active-progress { width: 0%; height: 100%; background: var(--orange); transition: 2s; }
 
         .btn-run { width: 100%; background: var(--orange); color: white; padding: 1.2rem; border-radius: 8px; font-weight: 700; border: none; cursor: pointer; margin-top: 1rem; }
 
@@ -45,12 +47,12 @@
         .bot { background: #262626; align-self: flex-start; }
         .user { background: #3797f0; align-self: flex-end; }
 
-        /* PRODUCT CARD FIX */
+        /* Product Card */
         .product-card {
             background: #1a1a1a; border-radius: 12px; overflow: hidden; border: 1px solid #333; margin: 10px 0; width: 220px;
             animation: popUp 0.3s ease-out; align-self: flex-start;
         }
-        .product-img { width: 100%; height: 160px; object-fit: cover; background: #333; border-bottom: 1px solid #333; }
+        .product-img { width: 100%; height: 160px; object-fit: cover; }
         .product-info { padding: 12px; }
         .product-price { color: var(--orange); font-weight: 700; font-size: 0.9rem; margin: 5px 0; }
         .btn-buy { background: #333; color: white; width: 100%; border: none; padding: 8px; border-radius: 6px; font-weight: 600; font-size: 0.75rem; cursor: pointer; }
@@ -59,7 +61,6 @@
         #chatInput { background: #1a1a1a; border: 1px solid #333; border-radius: 20px; padding: 10px 15px; color: white; width: 100%; outline: none; }
 
         @keyframes popUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
         @media (max-width: 900px) { body { grid-template-columns: 1fr; height: auto; overflow: auto; } }
     </style>
 </head>
@@ -67,33 +68,34 @@
 
     <div class="config-card">
         <div class="logo-k" onclick="window.location.href='/'">
-            <!-- Logo con cuádruple verificación y respaldo en la nube -->
             <img class="logo-img-fix" id="mainLogo" src="logo.png" 
-                onerror="this.src='Logo.png'; this.onerror=function(){this.src='Logo'; this.onerror=function(){this.src='https://dcdn-us.mitiendanube.com/stores/006/549/339/themes/common/logo-2116567490-1762033621-46b95d96386fe3eca045c88e9982e1bf1762033621-480-0.webp'; this.onerror=null;};};">
+                onerror="this.src='https://dcdn-us.mitiendanube.com/stores/006/549/339/themes/common/logo-2116567490-1762033621-46b95d96386fe3eca045c88e9982e1bf1762033621-480-0.webp'">
             <span style="font-weight:700">KLIC SYSTEMAS</span>
         </div>
-        <h1>Lab 4.0 Pro</h1>
-        <p>Probá la IA experta en ventas con simulación de catálogo dinámico.</p>
+        <h1>Deep-Sync</h1>
+        <p>Conectá tu web y dejá que la IA aprenda de tus productos automáticamente.</p>
         
         <div class="input-group">
             <label>Nombre del Negocio</label>
-            <input type="text" id="bizName" placeholder="Ej: Arte Espora">
+            <input type="text" id="bizName" placeholder="Ej: Pizzería Mario / Momma Kids">
+        </div>
+
+        <div class="input-group">
+            <label>Enlace a tu Web / Tienda Nube (Opcional)</label>
+            <input type="text" id="bizUrl" placeholder="https://tu-tienda.com">
         </div>
         
         <div class="input-group">
-            <label>Descripción / Qué vendes</label>
-            <textarea id="bizDesc" placeholder="Venta de cuadros de autor." rows="2"></textarea>
+            <label>¿Qué vendes / Rubro?</label>
+            <textarea id="bizDesc" placeholder="Vende cuotas de autos / Pizzas gourmet." rows="2"></textarea>
         </div>
 
-        <div class="simulation-switch">
-            <div>
-                <b style="font-size: 0.8rem;">Modo Catálogo (PoC)</b>
-                <p style="font-size: 0.6rem; color: var(--gray);">Busca productos en la Tienda</p>
-            </div>
-            <input type="checkbox" id="storeSync" style="width: 25px; height: 25px; cursor: pointer;">
+        <div class="sync-progress" id="syncBar">
+            <div class="active-progress" id="progressBar"></div>
         </div>
+        <p id="syncText" style="font-size: 0.6rem; color: var(--gray); display: none;">Analizando catálogo...</p>
 
-        <button class="btn-run" id="startBtn">CONECTAR MI BOT ➔</button>
+        <button class="btn-run" id="startBtn">SINCRONIZAR CATÁLOGO ➔</button>
     </div>
 
     <div class="phone">
@@ -103,7 +105,7 @@
             <div class="ig-u" id="igTitle">Klic Lab</div>
         </div>
         <div id="chatLog">
-            <div style="margin-top: 60%; color: #333; text-align: center; font-size: 0.7rem;">Configurá para iniciar charla</div>
+            <div style="margin-top: 60%; color: #333; text-align: center; font-size: 0.7rem;">Configurá para sincronizar</div>
         </div>
         <div class="ig-i">
             <input type="text" id="chatInput" placeholder="Escribir mensaje..." autocomplete="off">
@@ -113,21 +115,38 @@
     <script>
         const bizNameInput = document.getElementById('bizName');
         const bizDescInput = document.getElementById('bizDesc');
-        const storeSync = document.getElementById('storeSync');
+        const bizUrl = document.getElementById('bizUrl');
         const startBtn = document.getElementById('startBtn');
         const chatLog = document.getElementById('chatLog');
         const chatInput = document.getElementById('chatInput');
         const igTitle = document.getElementById('igTitle');
+        const syncBar = document.getElementById('syncBar');
+        const progressBar = document.getElementById('progressBar');
+        const syncText = document.getElementById('syncText');
 
         let demoActive = false;
 
         startBtn.onclick = () => {
             if(!bizNameInput.value) return alert("Faltan datos");
-            demoActive = true;
-            igTitle.innerText = bizNameInput.value;
-            chatLog.innerHTML = "";
-            addMessage("bot", `¡Hola! Soy parte del equipo de ${bizNameInput.value}. ¿En que podemos asesorarte hoy?`);
-            startBtn.innerText = "¡BOT ACTIVO! ✓";
+            
+            // Animación de Deep-Sync
+            startBtn.disabled = true;
+            startBtn.innerText = "Sincronizando...";
+            syncBar.style.display = "block";
+            syncText.style.display = "block";
+            progressBar.style.width = "0%";
+            
+            setTimeout(() => {
+                progressBar.style.width = "100%";
+                setTimeout(() => {
+                    demoActive = true;
+                    igTitle.innerText = bizNameInput.value;
+                    chatLog.innerHTML = "";
+                    addMessage("bot", `¡Hola! Catálogo de ${bizNameInput.value} sincronizado con éxito. ¿Qué producto buscabas?`);
+                    startBtn.innerText = "¡CONECTADO ✓!";
+                    startBtn.disabled = false;
+                }, 2000);
+            }, 100);
         };
 
         function addMessage(sender, text, product = null) {
@@ -141,11 +160,11 @@
                 const card = document.createElement("div");
                 card.className = "product-card";
                 card.innerHTML = `
-                    <img src="${product.img}" class="product-img" onerror="this.src='https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=300'">
+                    <img src="${product.img}" class="product-img" onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=300'">
                     <div class="product-info">
                         <div style="font-weight: 700; font-size: 0.8rem;">${product.name}</div>
                         <div class="product-price">${product.price}</div>
-                        <button class="btn-buy">Ver en Tienda ➔</button>
+                        <button class="btn-buy">Ver en Web ➔</button>
                     </div>
                 `;
                 chatLog.appendChild(card);
@@ -160,22 +179,18 @@
                 chatInput.value = "";
                 addMessage("user", text);
                 
-                try {
-                    const response = await fetch('/api/demo-chat', {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({
-                            business_name: bizNameInput.value,
-                            business_description: bizDescInput.value,
-                            store_mode: storeSync.checked,
-                            user_message: text
-                        })
-                    });
-                    const data = await response.json();
-                    addMessage("bot", data.response, data.product);
-                } catch (err) {
-                    addMessage("bot", "Hubo un error de conexión.");
-                }
+                const response = await fetch('/api/demo-chat', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        business_name: bizNameInput.value,
+                        business_description: bizDescInput.value,
+                        business_url: bizUrl.value,
+                        user_message: text
+                    })
+                });
+                const data = await response.json();
+                addMessage("bot", data.response, data.product);
             }
         };
     </script>
