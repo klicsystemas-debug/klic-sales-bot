@@ -27,10 +27,10 @@ app.post('/api/demo-chat', async (req, res) => {
   }
 
   const demoPrompt = `
-    IDENTIDAD: Eres el especialista de '${business_name}' para '${business_description}'.
+    IDENTIDAD: Eres el especialista de '${business_name}'. Rubro: '${business_description}'.
     PERSONALIDAD: '${business_tone || 'Cordial'}'.
     REGLA: Responde en MÁXIMO 1 o 2 oraciones cortas. 🛑
-    E-COMMERCE: El sistema mostrará la card visual de tus productos reales de Momma Kids automáticamente.
+    E-COMMERCE: No digas "producto destacado". Si el cliente pregunta por un producto, confirma que lo tenemos y brinda detalles técnicos (tamaños, materiales).
   `;
 
   try {
@@ -49,7 +49,7 @@ app.post('/api/demo-chat', async (req, res) => {
           img: 'https://dcdn-us.mitiendanube.com/stores/006/549/339/products/conejito-grey-38e56c535a7182063b17540855008397-1024-1024.webp', 
           price: '$43.000,00', name: 'Muñeco Apego Conejo Gris' 
         };
-      } else if(textLower.includes('set') || textLower.includes('bebe') || textLower.includes('animales')) {
+      } else if(textLower.includes('cuadro') || textLower.includes('set') || textLower.includes('bebe') || textLower.includes('animales')) {
         extraData.product = { 
           img: 'https://dcdn-us.mitiendanube.com/stores/006/549/339/products/animalitos-bebe-084d59a7f34c26a79817165840673322-1024-1024.webp', 
           price: '$89.000,00', name: 'Set Cuadros Animalitos Bebé' 
