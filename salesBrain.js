@@ -2,8 +2,8 @@ const OpenAI = require('openai');
 require('dotenv').config();
 
 const openai = new OpenAI({
-  apiKey: process.env.GROQ_API_KEY || process.env.OPENAI_API_KEY,
-  baseURL: "https://api.groq.com/openai/v1"
+  apiKey: process.env.GEMINI_API_KEY,
+  baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
 });
 
 /**
@@ -33,9 +33,9 @@ async function generateSalesResponse(userName, userMessage, customSystemPrompt =
     ];
 
     const response = await openai.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
+      model: "gemini-2.0-flash",
       messages: messages,
-      temperature: 0.7,
+      temperature: 0.4,
     });
 
     return response.choices[0].message.content;
