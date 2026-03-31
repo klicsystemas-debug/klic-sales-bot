@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klic Systemas | IA Sales Agency</title>
+    <title>Klic Systemas | Soluciones de IA para Instagram</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -12,240 +12,65 @@
             --navy: #05162e;
             --orange: #f97316;
             --orange-h: #ea580c;
-            --text: #ffffff;
+            --white: #ffffff;
             --gray: #94a3b8;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
-            font-family: 'Outfit', sans-serif; 
-            background: var(--navy);
-            color: var(--text); 
-            height: 100vh;
-            overflow: hidden;
-            scroll-behavior: smooth;
+            font-family: 'Outfit', sans-serif; background: var(--navy); color: var(--white); height: 100vh; overflow: hidden;
+            background: radial-gradient(circle at top right, #1e1b4b, #05162e);
+            display: flex; flex-direction: column;
         }
 
-        /* Nav */
-        header {
-            position: fixed;
-            top: 0; width: 100%;
-            padding: 1.2rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            background: rgba(5, 22, 46, 0.8);
-            backdrop-filter: blur(10px);
-        }
-        .logo-box { display: flex; align-items: center; gap: 10px; }
-        .logo-img { height: 35px; }
-        .logo-text { font-weight: 700; font-size: 1.4rem; }
+        header { padding: 1.5rem 5%; display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.5rem; }
+        .logo img { height: 40px; }
 
-        .btn-wa { background: var(--orange); color: white; padding: 0.6rem 1.2rem; border-radius: 4px; font-weight: 700; text-decoration: none; font-size: 0.85rem; transition: 0.3s; }
+        .btn-wa { background: var(--orange); color: white; padding: 0.7rem 1.4rem; border-radius: 4px; font-weight: 700; text-decoration: none; font-size: 0.9rem; }
 
-        /* Pantallas */
-        section { width: 100%; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0 5%; }
+        .hero { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 5%; }
+        .hero h1 { font-size: 4.5rem; font-weight: 700; line-height: 1; margin-bottom: 1.5rem; }
+        .hero p { font-size: 1.3rem; color: var(--gray); max-width: 750px; margin-bottom: 3rem; }
 
-        /* HOME SCREEN */
-        #home-screen {
-            background: radial-gradient(circle at center, #1e1b4b, #05162e);
-            text-align: center;
-        }
-        #home-screen h1 { font-size: 4.5rem; line-height: 1; margin-bottom: 1.5rem; font-weight: 700; }
-        #home-screen p { font-size: 1.4rem; color: var(--gray); max-width: 800px; margin-bottom: 2.5rem; }
-        .btn-demo { 
-            background: var(--orange); color: white; padding: 1.2rem 2.5rem; border-radius: 8px; font-weight: 700; font-size: 1.2rem; text-decoration: none; transition: 0.3s; 
-            box-shadow: 0 10px 30px rgba(249, 115, 22, 0.3);
-        }
-        .btn-demo:hover { background: var(--orange-h); transform: scale(1.05); }
+        .cta-box { display: flex; gap: 20px; }
+        .btn-lab { background: var(--white); color: var(--navy); padding: 1.2rem 2.5rem; border-radius: 8px; font-weight: 700; font-size: 1.1rem; text-decoration: none; transition: 0.3s; }
+        .btn-lab:hover { background: var(--orange); color: white; transform: scale(1.05); }
 
-        .services-mini { display: flex; gap: 40px; margin-top: 50px; opacity: 0.6; }
-        .s-item { font-size: 0.9rem; display: flex; align-items: center; gap: 10px; }
+        .highlights { display: flex; gap: 40px; margin-top: 60px; opacity: 0.5; }
+        .h-item { font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
 
-        /* LAB SCREEN (Compact) */
-        #lab-screen {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 4rem;
-            align-items: center;
-            background: #020617;
-        }
-
-        .config-card { max-width: 450px; }
-        .config-card h2 { font-size: 2.5rem; margin-bottom: 1rem; color: var(--orange); }
-        .config-card p { margin-bottom: 2rem; color: var(--gray); font-size: 1rem; }
-
-        .input-group { margin-bottom: 1.2rem; }
-        label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 5px; color: var(--gray); text-transform: uppercase; }
-        input, textarea { width: 100%; background: #0f172a; border: 1px solid #1e293b; padding: 12px; color: white; border-radius: 6px; font-size: 1rem; }
-        
-        .btn-run { width: 100%; background: var(--orange); color: white; padding: 1.2rem; border-radius: 8px; font-weight: 700; border: none; cursor: pointer; font-size: 1.1rem; margin-top: 10px; }
-
-        /* iPhone Display */
-        .phone-mockup {
-            width: 320px;
-            height: 640px;
-            background: #000;
-            border: 10px solid #222;
-            border-radius: 45px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
-            position: relative;
-        }
-        .ig-hdr { background: #000; padding: 40px 15px 10px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #1a1a1a; }
-        .ig-name { font-weight: 700; font-size: 0.85rem; }
-
-        #chatLog { flex-grow: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; background: #000; }
-        .msg { padding: 10px 15px; border-radius: 20px; font-size: 0.85rem; max-width: 85%; }
-        .bot { background: #262626;  align-self: flex-start; }
-        .user { background: #3797f0; align-self: flex-end; }
-        .input-bar { padding: 10px; background: #000; border-top: 1px solid #1a1a1a; }
-        #chatInput { background: #1a1a1a; border: 1px solid #333; border-radius: 20px; padding: 10px 15px; color: white; width: 100%; outline: none; }
-
-        .back-btn { position: absolute; bottom: 2rem; left: 2rem; color: var(--gray); text-decoration: none; font-size: 0.9rem; }
-
-        @media (max-width: 1000px) {
-            #lab-screen { grid-template-columns: 1fr; overflow-y: auto; height: auto; padding: 100px 0; }
-            #home-screen h1 { font-size: 2.5rem; }
-            .phone-mockup { margin-top: 2rem; }
+        @media (max-width: 800px) {
+            .hero h1 { font-size: 2.8rem; }
+            .hero p { font-size: 1rem; }
+            .highlights { display: none; }
         }
     </style>
 </head>
-<body id="main-body">
+<body>
 
     <header>
-        <div class="logo-box">
-            <img src="logo.png" class="logo-img" onerror="this.src='Logo.png'; this.onerror=function(){this.src='Logo'; this.onerror=null;};">
-            <span class="logo-text">KLIC SYSTEMAS</span>
+        <div class="logo">
+            <img src="logo.png" onerror="this.src='Logo.png';">
+            <span>KLIC SYSTEMAS</span>
         </div>
-        <a href="https://wa.me/549123456789" class="btn-wa" id="wa-btn">Contactar Agencia ➔</a>
+        <a href="https://wa.me/549123456789" class="btn-wa">Contactar</a>
     </header>
 
-    <!-- PANTALLA 1: EL SUEÑO (HOME) -->
-    <section id="home-screen">
-        <h1>Transformá tu Instagram<br>en una Máquina de Ventas</h1>
-        <p>Automatizamos tus DMs con IA de última generación que vende con un tono 100% humano. Menos tiempo respondiendo, más tiempo cerrando.</p>
+    <div class="hero">
+        <h1>Diseñamos Inteligencia<br>que Cierra Ventas</h1>
+        <p>Expertos en automatizaciónConversacional para Instagram. Transformamos tus DMs en un canal de ventas eficiente y humano.</p>
         
-        <a href="#lab-screen" class="btn-demo" id="go-to-lab">PROBAR DEMO GRATUITA ➔</a>
-
-        <div class="services-mini">
-            <div class="s-item">💎 Tono de Lujo</div>
-            <div class="s-item">⚡ Respuesta Al Instante</div>
-            <div class="s-item">🎯 Captura de Clientes</div>
-        </div>
-    </section>
-
-    <!-- PANTALLA 2: EL MOTOR (LAB) -->
-    <section id="lab-screen">
-        <div class="config-card">
-            <h2>Demo Lab</h2>
-            <p>Configurá tu negocio de prueba y hablá con tu futuro vendedor inteligente en tiempo real.</p>
-            
-            <div class="input-group">
-                <label>Nombre del Negocio</label>
-                <input type="text" id="bizName" placeholder="Pizzería Mario, Neumáticos Garibaldo...">
-            </div>
-            
-            <div class="input-group">
-                <label>Descripción del Negocio</label>
-                <textarea id="bizDesc" placeholder="Soy especialista en neumáticos de colección. Tono profesional." rows="2"></textarea>
-            </div>
-
-            <button class="btn-run" id="startBtn">ACTIVAR MI BOT ➔</button>
-            <a href="#home-screen" style="display:block; margin-top: 20px; color: #475569; font-size: 0.8rem; text-decoration: none;">⇠ Volver al inicio</a>
+        <div class="cta-box">
+            <a href="/lab" class="btn-lab">ACCEDER AL LAB ➔</a>
         </div>
 
-        <div class="phone-mockup">
-            <div class="ig-hdr">
-                <div style="font-size: 1.2rem; color: white;">‹</div>
-                <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--orange);"></div>
-                <div class="ig-name" id="igTitle">Klic Lab</div>
-            </div>
-            
-            <div id="chatLog">
-                <div style="margin-top: 60%; color: #333; text-align: center; font-size: 0.8rem;">Activá tu bot para iniciar</div>
-            </div>
-
-            <div class="input-bar">
-                <input type="text" id="chatInput" placeholder="Enviar mensaje..." autocomplete="off">
-            </div>
+        <div class="highlights">
+            <div class="h-item">🛡️ Seguro y Privado</div>
+            <div class="h-item">📈 Escalable</div>
+            <div class="h-item">🤖 IA de Última Generación</div>
         </div>
-    </section>
+    </div>
 
-    <script>
-        const bizNameInput = document.getElementById('bizName');
-        const bizDescInput = document.getElementById('bizDesc');
-        const startBtn = document.getElementById('startBtn');
-        const chatLog = document.getElementById('chatLog');
-        const chatInput = document.getElementById('chatInput');
-        const igTitle = document.getElementById('igTitle');
-        const home = document.getElementById('home-screen');
-        const lab = document.getElementById('lab-screen');
-
-        let demoActive = false;
-        let chatHistory = [];
-
-        // Scroll suave al Lab
-        document.getElementById('go-to-lab').onclick = (e) => {
-            e.preventDefault();
-            document.getElementById('lab-screen').scrollIntoView({ behavior: 'smooth' });
-            document.body.style.overflow = "auto"; // Habilitamos scroll temporal
-            setTimeout(() => document.body.style.overflow = "hidden", 800); // Bloqueamos de nuevo al llegar
-        };
-
-        startBtn.onclick = () => {
-            if(!bizNameInput.value) return alert("Ingresá el nombre");
-            demoActive = true;
-            chatHistory = [];
-            igTitle.innerText = bizNameInput.value;
-            chatLog.innerHTML = "";
-            addMessage("bot", `¡Hola! ¿Cómo estás? Soy el asistente de ${bizNameInput.value}. ¿En que podemos ayudarte hoy?`);
-            startBtn.innerText = "¡BOT CONFIGURADO! ✓";
-            setTimeout(() => startBtn.innerText = "ACTUALIZAR BOT ➔", 2000);
-        };
-
-        function addMessage(sender, text, id = null) {
-            const div = document.createElement("div");
-            div.className = "msg " + sender;
-            if(id) div.id = id;
-            div.innerText = text;
-            chatLog.appendChild(div);
-            chatLog.scrollTop = chatLog.scrollHeight;
-        }
-
-        chatInput.onkeypress = async (e) => {
-            if(e.key === 'Enter') {
-                const text = chatInput.value.trim();
-                if(!text || !demoActive) return;
-                chatInput.value = "";
-                addMessage("user", text);
-                const typingId = "typing_" + Date.now();
-                addMessage("bot", "...", typingId);
-
-                try {
-                    const response = await fetch('/api/demo-chat', {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({
-                            business_name: bizNameInput.value,
-                            business_description: bizDescInput.value,
-                            user_message: text,
-                            chat_history: chatHistory
-                        })
-                    });
-                    const data = await response.json();
-                    document.getElementById(typingId).remove();
-                    addMessage("bot", data.response);
-                    chatHistory.push({ role: "user", content: text });
-                    chatHistory.push({ role: "assistant", content: data.response });
-                } catch (err) {
-                    document.getElementById(typingId).innerText = "Error";
-                }
-            }
-        };
-    </script>
 </body>
 </html>

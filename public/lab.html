@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klic Lab | Demo Interactiva</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #05162e;
+            --orange: #f97316;
+            --orange-h: #ea580c;
+            --gray: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            background: radial-gradient(circle at top right, #1e1b4b, #05162e);
+            color: white; 
+            height: 100vh; 
+            overflow: hidden; 
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            padding: 2rem 5%;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        /* Config Panel */
+        .config-card { max-width: 450px; animation: fadeInLeft 0.8s ease-out; }
+        .logo-k { display: flex; align-items: center; gap: 10px; margin-bottom: 2rem; cursor: pointer; }
+        .logo-k img { height: 35px; }
+
+        .config-card h1 { font-size: 2.5rem; margin-bottom: 1rem; color: var(--orange); }
+        .config-card p { margin-bottom: 2rem; color: var(--gray); font-size: 0.95rem; }
+
+        .input-group { margin-bottom: 1.2rem; }
+        label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--gray); margin-bottom: 5px; text-transform: uppercase; }
+        input, textarea, select { 
+            width: 100%; background: #0f172a; border: 1px solid #1e293b; 
+            padding: 12px; color: white; border-radius: 6px; font-size: 0.95rem; 
+        }
+        select { cursor: pointer; }
+
+        .btn-run { 
+            width: 100%; background: var(--orange); color: white; padding: 1.2rem; border-radius: 8px; 
+            font-weight: 700; border: none; cursor: pointer; font-size: 1.1rem; margin-top: 1rem; transition: 0.3s;
+        }
+        .btn-run:hover { background: var(--orange-h); transform: translateY(-2px); }
+
+        /* Smartphone Mockup */
+        .phone {
+            width: 310px; height: 620px; background: #000; border: 10px solid #222; border-radius: 45px;
+            display: flex; flex-direction: column; overflow: hidden; margin: 0 auto;
+            position: relative; box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+        }
+        .ig-h { background: #000; padding: 35px 15px 10px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #1a1a1a; }
+        .ig-dot { width: 32px; height: 32px; border-radius: 50%; background: var(--orange); }
+        .ig-u { font-weight: 700; font-size: 0.85rem; }
+
+        #chatLog { flex-grow: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; background: #000; }
+        .msg { padding: 8px 14px; border-radius: 20px; font-size: 0.8rem; max-width: 85%; line-height: 1.3; }
+        .bot { background: #262626; align-self: flex-start; }
+        .user { background: #3797f0; align-self: flex-end; }
+        .ig-i { padding: 10px; background: #000; border-top: 1px solid #1a1a1a; }
+        #chatInput { background: #1a1a1a; border: 1px solid #333; border-radius: 20px; padding: 10px 15px; color: white; width: 100%; outline: none; }
+
+        @keyframes fadeInLeft { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+
+        @media (max-width: 900px) {
+            body { grid-template-columns: 1fr; height: auto; overflow: auto; padding-top: 100px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="config-card">
+        <div class="logo-k" onclick="window.location.href='/'">
+            <img src="logo.png" onerror="this.src='Logo.png';">
+            <span style="font-weight:700">KLIC SYSTEMAS</span>
+        </div>
+        <h1>Demo Lab</h1>
+        <p>Configurá tu negocio y probá el bot de ventas inteligente en tiempo real.</p>
+        
+        <div class="input-group">
+            <label>1. Nombre del Negocio</label>
+            <input type="text" id="bizName" placeholder="Pizzería Mario, Neumáticos...">
+        </div>
+        
+        <div class="input-group">
+            <label>2. Descripción del Negocio</label>
+            <textarea id="bizDesc" placeholder="Vende cuotas de autos. Tono persuasivo." rows="2"></textarea>
+        </div>
+
+        <div class="input-group">
+            <label>3. Tono del Bot</label>
+            <select id="bizTone">
+                <option value="Cordial y Amistoso">Cordial y Amistoso 😊</option>
+                <option value="Formal y Profesional">Formal y Profesional 👔</option>
+                <option value="Vendedor Directo y Persuasivo">Vendedor Directo 🎯</option>
+                <option value="Socio de Negocios de confianza">Socio de Confianza 🤝</option>
+            </select>
+        </div>
+
+        <button class="btn-run" id="startBtn">CONECTAR MI BOT ➔</button>
+        <p style="margin-top: 20px; font-size: 0.7rem; color: #475569;">⇠ Volver a la página principal</p>
+    </div>
+
+    <div class="phone">
+        <div class="ig-h">
+            <div style="font-size: 1.2rem; margin-right: 5px;">‹</div>
+            <div class="ig-dot"></div>
+            <div class="ig-u" id="igTitle">Klic Lab</div>
+        </div>
+        <div id="chatLog">
+            <div style="margin-top: 60%; color: #333; text-align: center; font-size: 0.7rem;">Configurá para iniciar charla</div>
+        </div>
+        <div class="ig-i">
+            <input type="text" id="chatInput" placeholder="Escribir mensaje..." autocomplete="off">
+        </div>
+    </div>
+
+    <script>
+        const bizNameInput = document.getElementById('bizName');
+        const bizDescInput = document.getElementById('bizDesc');
+        const bizToneInput = document.getElementById('bizTone');
+        const startBtn = document.getElementById('startBtn');
+        const chatLog = document.getElementById('chatLog');
+        const chatInput = document.getElementById('chatInput');
+        const igTitle = document.getElementById('igTitle');
+
+        let demoActive = false;
+        let chatHistory = [];
+
+        startBtn.onclick = () => {
+            if(!bizNameInput.value) return alert("Poné el nombre");
+            demoActive = true;
+            chatHistory = [];
+            igTitle.innerText = bizNameInput.value;
+            chatLog.innerHTML = "";
+            addMessage("bot", `¡Hola! ¿Cómo estás? Soy el asistente de ${bizNameInput.value}. ¿En que podemos asesorarte hoy?`);
+            startBtn.innerText = "¡BOT ACTIVO! ✓";
+            setTimeout(() => startBtn.innerText = "ACTUALIZAR BOT ➔", 2000);
+        };
+
+        function addMessage(sender, text, id = null) {
+            const div = document.createElement("div");
+            div.className = "msg " + sender;
+            if(id) div.id = id;
+            div.innerText = text;
+            chatLog.appendChild(div);
+            chatLog.scrollTop = chatLog.scrollHeight;
+        }
+
+        chatInput.onkeypress = async (e) => {
+            if(e.key === 'Enter') {
+                const text = chatInput.value.trim();
+                if(!text || !demoActive) return;
+                chatInput.value = "";
+                addMessage("user", text);
+                const typingId = "typing_" + Date.now();
+                addMessage("bot", "...", typingId);
+
+                try {
+                    const response = await fetch('/api/demo-chat', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                            business_name: bizNameInput.value,
+                            business_description: bizDescInput.value,
+                            business_tone: bizToneInput.value,
+                            user_message: text,
+                            chat_history: chatHistory
+                        })
+                    });
+                    const data = await response.json();
+                    document.getElementById(typingId).remove();
+                    addMessage("bot", data.response);
+                    chatHistory.push({ role: "user", content: text });
+                    chatHistory.push({ role: "assistant", content: data.response });
+                } catch (err) {
+                    document.getElementById(typingId).innerText = "Error";
+                }
+            }
+        };
+    </script>
+</body>
+</html>

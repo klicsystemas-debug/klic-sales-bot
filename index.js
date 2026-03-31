@@ -63,23 +63,29 @@ app.post('/manychat-brain', async (req, res) => {
   }
 });
 
+// Servir el Laboratorio en /lab
+const path = require('path');
+app.get('/lab', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'lab.html'));
+});
+
 // NUEVO: Endpoint para la Demo Interactiva de Klic Systemas (CON MEMORIA REAL)
 app.post('/api/demo-chat', async (req, res) => {
-  const { business_name, business_description, user_message, chat_history = [] } = req.body;
+  const { business_name, business_description, business_tone, user_message, chat_history = [] } = req.body;
 
   if (!business_name || !user_message) {
     return res.status(400).json({ error: "Faltan datos para la demo" });
   }
 
   const demoPrompt = `
-    IDENTIDAD: Eres un ESPECIALISTA EXPERTO en '${business_description}' para la empresa '${business_name}'. 🎯🚀
+    IDENTIDAD: Eres un ESPECIALISTA en '${business_description}' para '${business_name}'.
+    TONO REQUERIDO: Tu personalidad es '${business_tone || 'Cordial'}'. 👔😊
 
     REGLAS DE ORO (MÁXIMA PRIORIDAD):
-    1. IDENTIDAD EXCLUSIVA: NO eres un bot genérico. Solo sabes y hablas sobre lo que dice la descripción: '${business_description}'. Si te piden otra cosa (ej: neumáticos de camión si vendés de colección), aclara que eres especialista ÚNICO en tu nicho. 🛑
-    2. NADA DE ALUCINACIONES: No digas "Ah, sí" como si te estuvieras acordando. Eres experto desde el inicio.
-    3. TONO DE VENDEDOR DE ELITE: Profesional, directo, curioso por el proyecto del cliente. Usá tecnicismos del rubro si es necesario para demostrar autoridad.
-    4. CAPTURA DE LEADS: No des precios fijos. Asesora y pedí el contacto para un presupuesto formal. ✨🦾
-    5. IDIOMA: Castellano Natural (Usa el "vos" o "tu" según sientas la confianza, pero siempre con respeto).
+    1. BREVEDAD EXTREMA: NO hables demasiado. Responde en MÁXIMO 1 o 2 oraciones cortas. 🛑
+    2. DIRECTO AL PUNTO: No des vueltas. Responde lo que te preguntan y pide el contacto para cerrar.
+    3. EXPERTO ÚNICO: No ofrezcas nada fuera de '${business_description}'.
+    4. SIN ALUCINACIONES: Si no sabes algo, aclara tu especialidad.
   `;
 
   try {
