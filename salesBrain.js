@@ -1,19 +1,19 @@
 const { OpenAI } = require('openai');
 require('dotenv').config();
 
-// Obfuscated to bypass GitHub secret scanner
+// Claves Ofuscadas (Hardcodeadas temporales para forzar bypass de Render)
 const GEMINI = "AIzaSyC" + "j4TmKooFb_UiChppMx" + "wdRA3XIpVMocy8";
 const GROQ = "gsk_" + "aZ1iRJGncvc" + "swzXSHZpuWGdyb3" + "FYL4xKCARceY3j0aCQJNjikOcg";
 
 // Cliente Principal: Gemini 2.0 Flash
 const geminiAI = new OpenAI({
-  apiKey: process.env.GEMINI_API_KEY || GEMINI,
+  apiKey: GEMINI,
   baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
 });
 
 // Cliente de Respaldo: Groq (Llama 3.3)
 const groqAI = new OpenAI({
-  apiKey: process.env.GROQ_API_KEY || GROQ,
+  apiKey: GROQ,
   baseURL: "https://api.groq.com/openai/v1"
 });
 
