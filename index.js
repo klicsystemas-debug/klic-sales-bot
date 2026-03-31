@@ -1,102 +1,63 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 require('dotenv').config();
 const { generateSalesResponse } = require('./salesBrain');
 
 const app = express().use(bodyParser.json());
-
-// Servir archivos estáticos (para nuestra página web de Klic)
 app.use(express.static('public'));
 
-// Token de verificación para configurar el webhook en la Meta Developer Console
-const VERIFY_TOKEN = process.env.VERIFY_TOKEN || 'sales_bot_secret_token';
-
-// Endpoint para la validación del Webhook
-app.get('/webhook', (req, res) => {
-  const mode = req.query['hub.mode'];
-  const token = req.query['hub.verify_token'];
-  const challenge = req.query['hub.challenge'];
-
-  if (mode && token) {
-    if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-      console.log('WEBHOOK_VERIFIED');
-      res.status(200).send(challenge);
-    } else {
-      res.sendStatus(403);
-    }
-  }
-});
-
-// Endpoint para recibir mensajes y comentarios de Instagram
-app.post('/webhook', async (req, res) => {
-  const body = req.body;
-  if (body.object === 'instagram') {
-    for (const entry of body.entry) {
-      const messaging = entry.messaging || entry.changes;
-      for (const event of messaging) {
-        if (event.message && !event.message.is_echo) {
-          const senderId = event.sender.id;
-          const userText = event.message.text;
-          const aiResponse = await generateSalesResponse("Cliente", userText);
-          console.log(`Respuesta IA para IG: ${aiResponse}`);
-        }
-      }
-    }
-    res.status(200).send('EVENT_RECEIVED');
-  } else {
-    res.sendStatus(404);
-  }
-});
-
-// Endpoint específico para ManyChat
-app.post('/manychat-brain', async (req, res) => {
-  const { user_name, user_message } = req.body;
-  if (!user_message) return res.status(400).json({ error: "No user_message" });
-  try {
-    const aiResponse = await generateSalesResponse(user_name || "Cliente", user_message);
-    res.json({
-      version: "v2",
-      content: { messages: [{ type: "text", text: aiResponse }] }
-    });
-  } catch (error) {
-    res.status(500).json({ error: "Error procesando IA" });
-  }
-});
-
-// Servir el Laboratorio en /lab
-const path = require('path');
 app.get('/lab', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'lab.html'));
 });
 
-// NUEVO: Endpoint para la Demo Interactiva de Klic Systemas (CON MEMORIA REAL)
+// Webhook Meta
+const VERIFY_TOKEN = process.env.VERIFY_TOKEN || 'sales_bot_secret_token';
+app.get('/webhook', (req, res) => {
+  if (req.query['hub.verify_token'] === VERIFY_TOKEN) res.send(req.query['hub.challenge']);
+  else res.sendStatus(403);
+});
+
+// Demo API con Modo E-commerce Simulator
 app.post('/api/demo-chat', async (req, res) => {
-  const { business_name, business_description, business_tone, user_message, chat_history = [] } = req.body;
+  const { business_name, business_description, business_tone, store_mode, user_message, chat_history = [] } = req.body;
 
   if (!business_name || !user_message) {
-    return res.status(400).json({ error: "Faltan datos para la demo" });
+    return res.status(400).json({ error: "Faltan datos" });
   }
 
   const demoPrompt = `
-    IDENTIDAD: Eres un ESPECIALISTA en '${business_description}' para '${business_name}'.
-    TONO REQUERIDO: Tu personalidad es '${business_tone || 'Cordial'}'. 👔😊
-
-    REGLAS DE ORO (MÁXIMA PRIORIDAD):
-    1. BREVEDAD EXTREMA: NO hables demasiado. Responde en MÁXIMO 1 o 2 oraciones cortas. 🛑
-    2. DIRECTO AL PUNTO: No des vueltas. Responde lo que te preguntan y pide el contacto para cerrar.
-    3. EXPERTO ÚNICO: No ofrezcas nada fuera de '${business_description}'.
-    4. SIN ALUCINACIONES: Si no sabes algo, aclara tu especialidad.
+    IDENTIDAD: Eres el especialista de '${business_name}' para '${business_description}'.
+    PERSONALIDAD: '${business_tone || 'Cordial'}'.
+    REGLA: Responde en MÁXIMO 1 o 2 oraciones cortas. 🛑
+    E-COMMERCE: Si el cliente busca algo, el sistema mostrará una card visual automáticamente.
   `;
 
   try {
-    // Usamos la función oficial del cerebro para no perder la configuración de la clave API
+    let extraData = {};
+    const textLower = (user_message || "").toLowerCase();
+    
+    // Simulación de Catálogo Dinámico
+    if(store_mode) {
+      if(textLower.includes('conejo') || textLower.includes('cuadro')) {
+        extraData.product = { 
+          img: 'https://images.unsplash.com/photo-1591769225440-811ad7d62ca2?auto=format&fit=crop&q=80&w=400', 
+          price: '$4.500', name: 'Cuadro Conejito Art' 
+        };
+      } else if(textLower.includes('neumatico') || textLower.includes('rueda')) {
+        extraData.product = { 
+          img: 'https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&q=80&w=400', 
+          price: '$120.000', name: 'Neumático Classic Premium' 
+        };
+      }
+    }
+
     const aiResponse = await generateSalesResponse("Cliente", user_message, demoPrompt, chat_history);
-    res.json({ response: aiResponse });
+    res.json({ response: aiResponse, ...extraData });
   } catch (error) {
-    console.error("Error en Demo API:", error);
-    res.status(500).json({ error: "Error procesando demo" });
+    res.status(500).json({ error: "Error en el sistema" });
   }
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Servidor de Klic Systemas activo en puerto ${PORT}`));
+app.listen(PORT, () => console.log(`Klic Systemas activo en puerto ${PORT}`));
