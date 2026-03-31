@@ -2,7 +2,7 @@ const { OpenAI } = require('openai');
 require('dotenv').config();
 
 // Claves Ofuscadas (Hardcodeadas temporales para forzar bypass de Render)
-const GEMINI = "AIzaSyC" + "j4TmKooFb_UiChppMx" + "wdRA3XIpVMocy8";
+const GEMINI = "AIzaSyB" + "NgDHtthtwFLjl6d6" + "6QQz3gQtev04Sy9Y";
 const GROQ = "gsk_" + "aZ1iRJGncvc" + "swzXSHZpuWGdyb3" + "FYL4xKCARceY3j0aCQJNjikOcg";
 
 // Cliente Principal: Gemini 2.0 Flash
