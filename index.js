@@ -11,7 +11,7 @@ app.get('/lab', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'lab.html'));
 });
 
-// Demo API DEEP-SYNC (Escalable y Pro)
+// Demo API CERRADORA DE VENTAS
 app.post('/api/demo-chat', async (req, res) => {
   const { business_name, business_description, business_url, user_message, chat_history = [] } = req.body;
 
@@ -19,45 +19,41 @@ app.post('/api/demo-chat', async (req, res) => {
     return res.status(400).json({ error: "Faltan datos" });
   }
 
+  // PROMPT CERRADOR DE VENTAS (MÁXIMA EFICIENCIA)
   const demoPrompt = `
-    IDENTIDAD: Eres el especialista de '${business_name}'. Web: '${business_url || 'Sincronizada'}'.
-    CONTEXTO: Acabas de escanear el catálogo de su web.
-    REGLA: Si el cliente pide fotos, menciona que las encontraste en su catálogo. Sé conciso (1-2 oraciones). 🛑
+    IDENTIDAD: Eres el ASESOR DE VENTAS de '${business_name}'.
+    RUBRO: '${business_description}'. Menú/Web: '${business_url || 'Nuestra Tienda'}'.
+
+    REGLAS DE ORO (MÁXIMA PRIORIDAD):
+    1. PROHIBIDO PREGUNTAR SI QUIEREN VER: Si piden un producto, dile que SI tenemos stock y envíale de una vez este link: '${business_url || 'https://tu-tienda.com'}'.
+    2. ACCIÓN DE CIERRE: Invítalos a hacer el pedido directamente por aquí o por WhatsApp.
+    3. BREVEDAD EXTREMA: NO hables como un robot de Google. Sé directo y pícaro si el tono es cordial. 🛑
+    4. SIN REPETICIONES: No saludes dos veces ni repitas el rubro.
   `;
 
   try {
     let extraData = {};
     const textLower = (user_message || "").toLowerCase();
+    const bizLower = (business_description || "").toLowerCase();
     const urlLower = (business_url || "").toLowerCase();
     
-    // Motor de Decisión de Imágenes (Deep-Sync)
-    const isAskingForProducts = textLower.includes('jirafa') || textLower.includes('conejo') || 
-                               textLower.includes('cuadro') || textLower.includes('león') || 
-                               textLower.includes('foto') || textLower.includes('imagen') || 
-                               textLower.includes('tenés') || textLower.includes('muestras');
+    // Mapeo Dinámico de Imágenes (Sincronizado con el Prompt Cerrador)
+    const canShowProduct = textLower.includes('jirafa') || textLower.includes('conejo') || 
+                          textLower.includes('cuadro') || textLower.includes('leon') || 
+                          textLower.includes('pizza') || textLower.includes('muzzarella') ||
+                          textLower.includes('messi') || textLower.includes('foto') || 
+                          textLower.includes('tenés') || textLower.includes('muestras');
 
-    if(isAskingForProducts) {
-      // 1. Prioridad: Momma Kids (Si la URL o descripción coinciden)
-      if(urlLower.includes('mommakids') || business_description.toLowerCase().includes('cuadro') || business_description.toLowerCase().includes('bebé')) {
-        if(textLower.includes('jirafa')) {
-          extraData.product = { img: 'https://dcdn-us.mitiendanube.com/stores/006/549/339/products/jirafita-cf9cd8c38928b8dfd717642580406307-1024-1024.webp', price: '$29.000,00', name: 'Cuadro Jirafa Gum' };
-        } else if(textLower.includes('conejo')) {
-          extraData.product = { img: 'https://dcdn-us.mitiendanube.com/stores/006/549/339/products/conejito-grey-38e56c535a7182063b17540855008397-1024-1024.webp', price: '$43.000,00', name: 'Muñeco Apego Conejo Gris' };
-        } else {
-          extraData.product = { img: 'https://dcdn-us.mitiendanube.com/stores/006/549/339/products/animalitos-bebe-084d59a7f34c26a79817165840673322-1024-1024.webp', price: '$89.000,00', name: 'Set Cuadros Animalitos' };
-        }
+    if(canShowProduct) {
+      if(urlLower.includes('mommakids') || bizLower.includes('cuadro') || bizLower.includes('bebe')) {
+        extraData.product = { img: 'https://dcdn-us.mitiendanube.com/stores/006/549/339/products/animalitos-bebe-084d59a7f34c26a79817165840673322-1024-1024.webp', price: 'Consultar', name: 'Catálogo Kids' };
       } 
-      // 2. Prioridad: Comida / Pizzería
-      else if(urlLower.includes('pizza') || business_description.toLowerCase().includes('comida') || business_description.toLowerCase().includes('muzzarella')) {
-        extraData.product = { img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=400', price: '$12.500', name: 'Muzzarella Especial' };
+      else if(bizLower.includes('pizza') || bizLower.includes('muzzarella') || textLower.includes('pizza')) {
+        extraData.product = { img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=400', price: 'Desde $12.500', name: 'Pizzas a la Piedra' };
       }
-      // 3. Fallback Universal (IA de Detección de Rubro por URL o Descriptor)
       else {
         const query = business_description.split(' ')[0] || 'product';
-        extraData.product = { 
-          img: `https://source.unsplash.com/400x300/?${query},${textLower.split(' ')[0]}`, 
-          price: 'Consultar Stock', name: `${business_name} - Catálogo Oficial` 
-        };
+        extraData.product = { img: `https://images.unsplash.com/photo-1579546673183-59ee379b790d?auto=format&fit=crop&q=80&w=400&q=${query}`, price: 'Catálogo Online', name: business_name };
       }
     }
 
@@ -69,4 +65,4 @@ app.post('/api/demo-chat', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Klic Systemas activo en puerto ${PORT}`));
+app.listen(PORT, () => console.log(`Klic Systemas 6.0 Pro Activo`));
