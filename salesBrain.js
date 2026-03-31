@@ -2,7 +2,7 @@ const OpenAI = require('openai');
 require('dotenv').config();
 
 const openai = new OpenAI({
-  apiKey: process.env.GEMINI_API_KEY,
+  apiKey: process.env.GEMINI_API_KEY || "AIzaSyCj4TmKooFb_UiChppMxwdRA3XIpVMocy8",
   baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
 });
 
