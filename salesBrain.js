@@ -51,9 +51,9 @@ async function generateSalesResponse(userName, userMessage, customSystemPrompt =
     console.log("🔄 Activando Auto-Reparación: Redirigiendo a Llama-3.3 (Groq)...");
 
     try {
-      // Intento 2: GROQ (Respaldo activo si Gemini muere)
+      // Intento 2: GROQ (Respaldo activo con modelo 8B para eludir límite de tokens diarios del 70B)
       const fallbackResponse = await groqAI.chat.completions.create({
-        model: "llama-3.3-70b-versatile",
+        model: "llama-3.1-8b-instant",
         messages: messages,
         temperature: 0.4,
       });
