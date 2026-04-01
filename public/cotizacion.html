@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de Presupuesto | Klic Systemas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: #0d1117; color: #c9d1d9; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .container { background: #161b22; max-width: 600px; width: 100%; border-radius: 12px; padding: 40px; border: 1px solid #30363d; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+        .logo { font-size: 28px; font-weight: 800; color: #ff6a00; text-align: center; margin-bottom: 10px; }
+        h1 { font-size: 24px; text-align: center; margin-bottom: 10px; color: #ffffff; }
+        p { text-align: center; margin-bottom: 30px; font-size: 14px; color: #8b949e; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+        input, select, textarea { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #30363d; background: #0d1117; color: #fff; font-family: 'Inter'; font-size: 14px; outline: none; transition: border 0.3s; }
+        input:focus, select:focus, textarea:focus { border-color: #ff6a00; }
+        textarea { resize: vertical; min-height: 100px; }
+        button { width: 100%; background: linear-gradient(135deg, #ff6a00, #ff8c00); color: white; border: none; padding: 14px; font-size: 16px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: transform 0.2s, background 0.2s; }
+        button:hover { transform: translateY(-2px); background: linear-gradient(135deg, #e65c00, #ff6a00); }
+        
+        .success-msg { display: none; background: rgba(46, 160, 67, 0.1); border: 1px solid #2ea043; color: #2ea043; padding: 15px; border-radius: 6px; text-align: center; margin-top: 20px; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo">Klic Systemas</div>
+    <h1>Solicitud de Presupuesto IA</h1>
+    <p>Completá estos datos para que nuestro equipo evalúe la viabilidad de tu automatización y te arme una cotización a medida.</p>
+
+    <form id="quoteForm">
+        <div class="form-group">
+            <label>Nombre y Apellido</label>
+            <input type="text" id="name" placeholder="Ej. Miguel Klic" required>
+        </div>
+        
+        <div class="form-group">
+            <label>WhatsApp (con código de país)</label>
+            <input type="tel" id="whatsapp" placeholder="+54 9 11..." required>
+        </div>
+
+        <div class="form-group">
+            <label>Rubro del Negocio</label>
+            <select id="industry" required>
+                <option value="" disabled selected>Seleccioná tu rubro...</option>
+                <option value="ecommerce">E-commerce / Tienda Online (Tienda Nube, Shopify)</option>
+                <option value="servicios">Servicios (Agencias, Consultoría, Freelance)</option>
+                <option value="gastronomia">Gastronomía (Restaurante, Pizzería, Bar)</option>
+                <option value="inmobiliaria">Inmobiliaria / Bienes Raíces</option>
+                <option value="salud">Salud y Estética (Clínicas, Turnos)</option>
+                <option value="otro">Otro</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Link a tu Instagram o Sitio Web</label>
+            <input type="url" id="link" placeholder="https://instagram.com/..." required>
+        </div>
+
+        <div class="form-group">
+            <label>¿Cuál es tu mayor "dolor" o el problema que la IA debe resolver?</label>
+            <textarea id="problem" placeholder="Ej. Respondo lo mismo 100 veces por día, la gente pregunta precios a las 3 AM y pierdo ventas..." required></textarea>
+        </div>
+
+        <button type="submit">Solicitar Cotización</button>
+        <div id="successMessage" class="success-msg">¡Recibido! Nos pondremos en contacto por WhatsApp con tu propuesta en menos de 24 horas.</div>
+    </form>
+</div>
+
+<script>
+    document.getElementById('quoteForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Acá a futuro podemos enganchar la API o un Webhook a Make.com para enviártelo al celular
+        document.getElementById('successMessage').style.display = 'block';
+        this.reset();
+        setTimeout(() => document.getElementById('successMessage').style.display = 'none', 5000);
+    });
+</script>
+
+</body>
+</html>

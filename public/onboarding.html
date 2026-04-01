@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding de Cliente | Klic Systemas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: #0d1117; color: #c9d1d9; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; padding: 40px 20px; }
+        .container { background: #161b22; max-width: 650px; width: 100%; border-radius: 12px; padding: 40px; border: 1px solid #30363d; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+        .logo { font-size: 28px; font-weight: 800; color: #ff6a00; text-align: center; margin-bottom: 10px; }
+        h1 { font-size: 24px; text-align: center; margin-bottom: 10px; color: #ffffff; }
+        p { text-align: center; margin-bottom: 30px; font-size: 14px; color: #8b949e; line-height: 1.5; }
+        .form-group { margin-bottom: 25px; }
+        label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; color: #c9d1d9; }
+        .help-text { font-size: 12px; color: #8b949e; margin-bottom: 8px; display: block; }
+        input, select, textarea { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #30363d; background: #0d1117; color: #fff; font-family: 'Inter'; font-size: 14px; outline: none; transition: border 0.3s; }
+        input:focus, select:focus, textarea:focus { border-color: #ff6a00; }
+        textarea { resize: vertical; min-height: 120px; }
+        button { width: 100%; background: linear-gradient(135deg, #2ea043, #3fb950); color: white; border: none; padding: 16px; font-size: 16px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: transform 0.2s, background 0.2s; }
+        button:hover { transform: translateY(-2px); background: linear-gradient(135deg, #3fb950, #2ea043); }
+        
+        .success-msg { display: none; background: rgba(46, 160, 67, 0.1); border: 1px solid #2ea043; color: #2ea043; padding: 20px; border-radius: 6px; text-align: center; margin-top: 20px; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo">Klic Systemas</div>
+    <h1>Construcción del Cerebro IA</h1>
+    <p>¡Felicitaciones por dar el salto! Completá este formulario con la información oficial de tu negocio. Estos datos serán inyectados directamente en el núcleo de tu nuevo Asistente de Inteligencia Artificial.</p>
+
+    <form id="onboardingForm">
+        <div class="form-group">
+            <label>Nombre Público del Negocio</label>
+            <input type="text" id="businessName" placeholder="Ej. Pizzería Guerrín" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Tono de Voz del Bot</label>
+            <span class="help-text">¿Cómo querés que le hable a tus clientes?</span>
+            <select id="tone" required>
+                <option value="" disabled selected>Elegí una personalidad...</option>
+                <option value="formal">Formal y Profesional (Trata de Usted)</option>
+                <option value="amigable">Súper Amigable y Cercano (Usa emojis, trato de vos)</option>
+                <option value="irreverente">Canchero / Irreverente (Tono juvenil, descontracturado)</option>
+                <option value="conciso">Directo y Conciso (Solo responde lo que le preguntan, sin adornos)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Preguntas Frecuentes Principales (FAQ)</label>
+            <span class="help-text">Pegá acá las respuestas oficiales a: Días y Horarios, Medios de Pago, Envíos, Ubicación.</span>
+            <textarea id="faqs" placeholder="Ej: Abrimos de Lunes a Sábados de 9 a 18hs. Aceptamos MercadoPago y Transferencia. Envíos gratis a partir de $50.000." required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Lista de Servicios / Catálogo Base</label>
+            <span class="help-text">Mencioná tus principales productos/servicios y links si tenés (ej: Tienda Nube).</span>
+            <textarea id="catalog" placeholder="Ej: Vendemos zapatillas deportivas ($50.000). Link: mitienda.com/zapatillas" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Reglas INQUEBRANTABLES</label>
+            <span class="help-text">¿Qué cosas el Bot NUNCA debe decir o hacer?</span>
+            <textarea id="rules" placeholder="Ej: NUNCA hacer descuentos de más del 10%. NUNCA asegurar que tenemos stock de camperas sin pedir color primero." required></textarea>
+        </div>
+
+        <button type="submit">Generar Arquitectura de IA</button>
+        <div id="successMessage" class="success-msg">¡Datos recibidos en la matriz! El equipo de Klic Systemas ya está construyendo y conectando tu cerebro de IA. Te avisaremos en cuanto esté listo para probar.</div>
+    </form>
+</div>
+
+<script>
+    document.getElementById('onboardingForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        document.getElementById('successMessage').style.display = 'block';
+        setTimeout(() => {
+            this.reset();
+            document.getElementById('successMessage').style.display = 'none';
+        }, 8000);
+    });
+</script>
+
+</body>
+</html>
