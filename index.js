@@ -50,6 +50,44 @@ app.post('/api/scrape', async (req, res) => {
 });
 
 // ═══════════════════════════════════════════════════════════════
+// CEREBRO KLIC SYSTEMAS (Bot de Agencia en Instagram vía ManyChat)
+// ═══════════════════════════════════════════════════════════════
+app.post('/webhook', async (req, res) => {
+  // ManyChat puede enviar el mensaje en varios formatos
+  const user_message = req.body.message || req.body.text || (req.body.messages && req.body.messages[0] && req.body.messages[0].text) || "Hola";
+  
+  const agencyPrompt = `
+Sos el Experto en Ventas de "Klic Systemas", una agencia de Inteligencia Artificial que crea bots automatizados para negocios.
+Tu objetivo es identificar si el cliente necesita un bot y pedirle los datos para armarle un presupuesto.
+
+REGLAS INQUEBRANTABLES:
+1. RESPUESTAS CORTAS Y DIRECTAS: Nunca superes las 2 o 3 líneas. Nada de textos gigantes ni dar vueltas.
+2. MENTALIDAD DE CLOSER: No expliques cómo funciona la IA si no te lo piden. Enfocate en el dolor del cliente (ahorrar tiempo, vender 24/7).
+3. EL CIERRE DIRECTO: Si el cliente dice "ok", "me interesa", "presupuesto" o muestra intención de avanzar, DEBÉS decirle textualmente:
+"¡Excelente! Para armarte un presupuesto a medida, contame: ¿A qué se dedica tu negocio y qué te gustaría que responda el bot por vos?"
+4. No uses palabras como "che, genio, rey". Sé profesional pero cercano (usá emojis sutiles).
+  `;
+
+  try {
+    const aiResponse = await generateSalesResponse("Prospecto", user_message, agencyPrompt, []);
+    
+    // Formato Híbrido: Compatible con Mapeo de Variables ($.response) y Dynamic Content de ManyChat
+    res.json({
+      response: aiResponse,
+      version: "v2",
+      content: {
+        messages: [
+          { type: "text", text: aiResponse }
+        ]
+      }
+    });
+  } catch (error) {
+    console.error("Webhook Error:", error);
+    res.json({ response: "En este momento estoy actualizando mi sistema. Dejame tu WhatsApp y te escribo por ahí." });
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════
 // CEREBRO DE VENTAS v9 - CON CONOCIMIENTO REAL DE LA WEB
 // ═══════════════════════════════════════════════════════════════
 app.post('/api/demo-chat', async (req, res) => {
